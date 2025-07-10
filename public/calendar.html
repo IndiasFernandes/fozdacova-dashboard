@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar - Foz da Cova Community Land Project</title>
+    <link rel="stylesheet" href="../dashboards/shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Public site specific styles */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+            color: var(--neutral-white);
+            padding: var(--space-12) 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-6);
+            color: var(--neutral-white);
+        }
+        
+        .hero p {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-8);
+            color: var(--neutral-white);
+            opacity: 0.9;
+        }
+        
+        .section {
+            padding: var(--space-12) 0;
+        }
+        
+        .section-alt {
+            background-color: var(--background-secondary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+        
+        .header {
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: var(--space-4) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+        
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-green);
+        }
+        
+        .footer {
+            background: var(--neutral-dark);
+            color: var(--neutral-white);
+            padding: var(--space-8) 0;
+            text-align: center;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-6);
+            background: var(--background-primary);
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .calendar-day {
+            background: var(--background-primary);
+            min-height: 120px;
+            padding: var(--space-2);
+            position: relative;
+        }
+        
+        .calendar-day.other-month {
+            background: var(--background-secondary);
+            color: var(--text-secondary);
+        }
+        
+        .calendar-day.today {
+            background: var(--primary-green-light);
+            color: var(--neutral-white);
+        }
+        
+        .day-number {
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+        }
+        
+        .event {
+            font-size: var(--text-xs);
+            padding: var(--space-1);
+            margin-bottom: var(--space-1);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+        
+        .event:hover {
+            opacity: 0.8;
+        }
+        
+        .event-work {
+            background: var(--accent-warning);
+            color: var(--neutral-dark);
+        }
+        
+        .event-social {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+        }
+        
+        .event-learning {
+            background: var(--accent-cool);
+            color: var(--neutral-dark);
+        }
+        
+        .event-community {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        
+        .event-planning {
+            background: var(--secondary-earth);
+            color: var(--neutral-white);
+        }
+        
+        .calendar-legend {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            margin-top: var(--space-4);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        .upcoming-events {
+            margin-top: var(--space-8);
+        }
+        
+        .event-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .event-card {
+            background: var(--background-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-4);
+        }
+        
+        .event-date {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        
+        .event-time {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        
+        .event-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+        }
+        
+        .event-meta {
+            display: flex;
+            gap: var(--space-4);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .calendar-grid {
+                grid-template-columns: repeat(7, 1fr);
+                font-size: var(--text-xs);
+            }
+            
+            .calendar-day {
+                min-height: 80px;
+                padding: var(--space-1);
+            }
+            
+            .event {
+                font-size: 10px;
+                padding: 2px;
+            }
+            
+            .calendar-header {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <h2>Foz da Cova</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="calendar.html" class="nav-link">Calendar</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="join.html" class="nav-link">Join Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Community Calendar</h1>
+            <p>Stay updated with our community events, work days, and activities.</p>
+        </div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section class="section">
+        <div class="container">
+            <div class="calendar-header">
+                <div>
+                    <h2>February 2024</h2>
+                    <p>Community events and activities</p>
+                </div>
+                <div class="calendar-nav">
+                    <button class="btn btn-outline btn-sm">← Previous</button>
+                    <button class="btn btn-outline btn-sm">Next →</button>
+                </div>
+            </div>
+
+            <div class="calendar-grid">
+                <!-- Calendar days will be generated by JavaScript -->
+            </div>
+
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--accent-warning);"></div>
+                    <span>Work Days</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--accent-success);"></div>
+                    <span>Social Events</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--accent-cool);"></div>
+                    <span>Learning</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--primary-green);"></div>
+                    <span>Community Calls</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--secondary-earth);"></div>
+                    <span>Planning</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Upcoming Events</h2>
+            <div class="event-list">
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3>Weekly Community Call</h3>
+                            <span class="badge badge-info">Community</span>
+                        </div>
+                        <div class="event-date">Monday, Feb 12</div>
+                    </div>
+                    <div class="event-time">17:00 - 18:00</div>
+                    <div class="event-description">
+                        <p>Weekly check-in and planning meeting. All community members welcome to join and share updates.</p>
+                    </div>
+                    <div class="event-meta">
+                        <span>📍 Community Hall</span>
+                        <span>👥 8 participants</span>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3>Garden Workshop</h3>
+                            <span class="badge badge-success">Learning</span>
+                        </div>
+                        <div class="event-date">Wednesday, Feb 14</div>
+                    </div>
+                    <div class="event-time">14:00 - 16:00</div>
+                    <div class="event-description">
+                        <p>Learn about spring planting techniques, soil preparation, and organic gardening methods.</p>
+                    </div>
+                    <div class="event-meta">
+                        <span>📍 Garden Area</span>
+                        <span>👥 6 participants</span>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3>Community Dinner</h3>
+                            <span class="badge badge-success">Social</span>
+                        </div>
+                        <div class="event-date">Friday, Feb 16</div>
+                    </div>
+                    <div class="event-time">19:00 - 21:00</div>
+                    <div class="event-description">
+                        <p>Shared meal and conversation. Bring a dish to share and enjoy community time together.</p>
+                    </div>
+                    <div class="event-meta">
+                        <span>📍 Community Kitchen</span>
+                        <span>👥 12 participants</span>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3>Project Planning Meeting</h3>
+                            <span class="badge badge-secondary">Planning</span>
+                        </div>
+                        <div class="event-date">Thursday, Feb 15</div>
+                    </div>
+                    <div class="event-time">14:00 - 15:00</div>
+                    <div class="event-description">
+                        <p>Planning session for upcoming projects including forest garden design and solar installation.</p>
+                    </div>
+                    <div class="event-meta">
+                        <span>📍 Meeting Room</span>
+                        <span>👥 4 participants</span>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3>Natural Building Workshop</h3>
+                            <span class="badge badge-info">Learning</span>
+                        </div>
+                        <div class="event-date">Saturday, Feb 17</div>
+                    </div>
+                    <div class="event-time">10:00 - 16:00</div>
+                    <div class="event-description">
+                        <p>Hands-on workshop learning cob building techniques and natural construction methods.</p>
+                    </div>
+                    <div class="event-meta">
+                        <span>📍 Building Site</span>
+                        <span>👥 8 participants</span>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3>Water System Maintenance</h3>
+                            <span class="badge badge-warning">Work</span>
+                        </div>
+                        <div class="event-date">Tuesday, Feb 13</div>
+                    </div>
+                    <div class="event-time">09:00 - 12:00</div>
+                    <div class="event-description">
+                        <p>Maintenance work on our water collection and distribution systems. Physical work required.</p>
+                    </div>
+                    <div class="event-meta">
+                        <span>📍 Water System</span>
+                        <span>👥 3 participants</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section">
+        <div class="container">
+            <div class="text-center">
+                <h2>Join Our Events</h2>
+                <p>Participate in our community activities and learn sustainable living skills.</p>
+                <div class="hero-actions">
+                    <a href="join.html" class="btn btn-lg btn-primary">Apply to Join</a>
+                    <a href="contact.html" class="btn btn-lg btn-outline">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Foz da Cova Community Land Project. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:info@fozdacova.pt" style="color: var(--neutral-white);">info@fozdacova.pt</a></p>
+        </div>
+    </footer>
+
+    <script src="../dashboards/shared/js/main.js"></script>
+    <script>
+        // Calendar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarGrid = document.querySelector('.calendar-grid');
+            
+            // Sample calendar data for February 2024
+            const calendarData = {
+                month: 'February',
+                year: 2024,
+                days: [
+                    // Week 1 (Jan 29 - Feb 4)
+                    { day: 29, month: 'prev', events: [] },
+                    { day: 30, month: 'prev', events: [] },
+                    { day: 31, month: 'prev', events: [] },
+                    { day: 1, month: 'current', events: [] },
+                    { day: 2, month: 'current', events: [] },
+                    { day: 3, month: 'current', events: [] },
+                    { day: 4, month: 'current', events: [] },
+                    
+                    // Week 2 (Feb 5 - Feb 11)
+                    { day: 5, month: 'current', events: [] },
+                    { day: 6, month: 'current', events: [] },
+                    { day: 7, month: 'current', events: [] },
+                    { day: 8, month: 'current', events: [] },
+                    { day: 9, month: 'current', events: [] },
+                    { day: 10, month: 'current', events: [] },
+                    { day: 11, month: 'current', events: [] },
+                    
+                    // Week 3 (Feb 12 - Feb 18)
+                    { day: 12, month: 'current', events: [{ type: 'community', title: 'Community Call' }] },
+                    { day: 13, month: 'current', events: [{ type: 'work', title: 'Water Maintenance' }] },
+                    { day: 14, month: 'current', events: [{ type: 'learning', title: 'Garden Workshop' }] },
+                    { day: 15, month: 'current', events: [{ type: 'planning', title: 'Project Meeting' }] },
+                    { day: 16, month: 'current', events: [{ type: 'social', title: 'Community Dinner' }] },
+                    { day: 17, month: 'current', events: [{ type: 'learning', title: 'Building Workshop' }] },
+                    { day: 18, month: 'current', events: [] },
+                    
+                    // Week 4 (Feb 19 - Feb 25)
+                    { day: 19, month: 'current', events: [] },
+                    { day: 20, month: 'current', events: [] },
+                    { day: 21, month: 'current', events: [] },
+                    { day: 22, month: 'current', events: [] },
+                    { day: 23, month: 'current', events: [] },
+                    { day: 24, month: 'current', events: [] },
+                    { day: 25, month: 'current', events: [] },
+                    
+                    // Week 5 (Feb 26 - Mar 3)
+                    { day: 26, month: 'current', events: [] },
+                    { day: 27, month: 'current', events: [] },
+                    { day: 28, month: 'current', events: [] },
+                    { day: 29, month: 'current', events: [] },
+                    { day: 1, month: 'next', events: [] },
+                    { day: 2, month: 'next', events: [] },
+                    { day: 3, month: 'next', events: [] }
+                ]
+            };
+            
+            // Generate calendar
+            calendarData.days.forEach(dayData => {
+                const dayElement = document.createElement('div');
+                dayElement.className = `calendar-day ${dayData.month !== 'current' ? 'other-month' : ''}`;
+                
+                const today = new Date();
+                if (dayData.month === 'current' && dayData.day === today.getDate() && today.getMonth() === 1) {
+                    dayElement.classList.add('today');
+                }
+                
+                dayElement.innerHTML = `
+                    <div class="day-number">${dayData.day}</div>
+                    ${dayData.events.map(event => `
+                        <div class="event event-${event.type}" title="${event.title}">
+                            ${event.title}
+                        </div>
+                    `).join('')}
+                `;
+                
+                calendarGrid.appendChild(dayElement);
+            });
+        });
+    </script>
+</body>
+</html> 

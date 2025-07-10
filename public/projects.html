@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Foz da Cova Community Land Project</title>
+    <link rel="stylesheet" href="../dashboards/shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Public site specific styles */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+            color: var(--neutral-white);
+            padding: var(--space-12) 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-6);
+            color: var(--neutral-white);
+        }
+        
+        .hero p {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-8);
+            color: var(--neutral-white);
+            opacity: 0.9;
+        }
+        
+        .section {
+            padding: var(--space-12) 0;
+        }
+        
+        .section-alt {
+            background-color: var(--background-secondary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+        
+        .header {
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: var(--space-4) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+        
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-green);
+        }
+        
+        .footer {
+            background: var(--neutral-dark);
+            color: var(--neutral-white);
+            padding: var(--space-8) 0;
+            text-align: center;
+        }
+        
+        .filters {
+            background: var(--background-primary);
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-8);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: var(--space-4);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .project-card {
+            background: var(--background-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--primary-green-light), var(--secondary-earth));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neutral-white);
+            font-size: var(--text-2xl);
+        }
+        
+        .project-content {
+            padding: var(--space-6);
+        }
+        
+        .project-meta {
+            display: flex;
+            gap: var(--space-4);
+            margin: var(--space-4) 0;
+            flex-wrap: wrap;
+        }
+        
+        .project-meta span {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        
+        .project-description {
+            margin-bottom: var(--space-4);
+            color: var(--text-secondary);
+        }
+        
+        .project-requirements {
+            margin-bottom: var(--space-4);
+        }
+        
+        .project-requirements h4 {
+            margin-bottom: var(--space-2);
+        }
+        
+        .project-requirements ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .project-requirements li {
+            padding: var(--space-1) 0;
+            color: var(--text-secondary);
+        }
+        
+        .project-requirements li:before {
+            content: "•";
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-right: var(--space-2);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <h2>Foz da Cova</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="calendar.html" class="nav-link">Calendar</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="join.html" class="nav-link">Join Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Our Projects</h1>
+            <p>Discover current opportunities for participation and contribution in our community.</p>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="section">
+        <div class="container">
+            <div class="filters">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="categoryFilter" class="form-label">Category</label>
+                        <select id="categoryFilter" class="form-select">
+                            <option value="">All Categories</option>
+                            <option value="gardening">Gardening</option>
+                            <option value="construction">Construction</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="social">Social</option>
+                            <option value="learning">Learning</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="statusFilter" class="form-label">Status</label>
+                        <select id="statusFilter" class="form-select">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="proposed">Proposed</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="searchProjects" class="form-label">Search</label>
+                        <input type="text" id="searchProjects" class="form-input" placeholder="Search projects...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid">
+                <!-- Spring Garden Planting -->
+                <div class="project-card" data-category="gardening" data-status="active">
+                    <div class="project-image">🌱</div>
+                    <div class="project-content">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3>Spring Garden Planting</h3>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <div class="project-meta">
+                            <span>Category: Gardening</span>
+                            <span>Duration: 2 weeks</span>
+                            <span>Participants: 4/6</span>
+                        </div>
+                        <div class="project-description">
+                            <p>Planting spring vegetables and herbs in our community garden. Learn about organic gardening techniques and sustainable food production.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                <li>Basic physical fitness</li>
+                                <li>Interest in gardening</li>
+                                <li>Willingness to learn</li>
+                                <li>Teamwork skills</li>
+                            </ul>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                                <span class="progress-text">45% Complete</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="join.html" class="btn btn-primary">Join Project</a>
+                            <a href="#" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Water System Maintenance -->
+                <div class="project-card" data-category="maintenance" data-status="active">
+                    <div class="project-image">💧</div>
+                    <div class="project-content">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3>Water System Maintenance</h3>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <div class="project-meta">
+                            <span>Category: Maintenance</span>
+                            <span>Duration: 1 week</span>
+                            <span>Participants: 3/4</span>
+                        </div>
+                        <div class="project-description">
+                            <p>Maintaining and improving our water collection and distribution systems. Essential work for sustainable water management.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                <li>Basic tool skills</li>
+                                <li>Physical fitness</li>
+                                <li>Attention to detail</li>
+                                <li>Safety awareness</li>
+                            </ul>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                                <span class="progress-text">75% Complete</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="join.html" class="btn btn-primary">Join Project</a>
+                            <a href="#" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Kitchen Renovation -->
+                <div class="project-card" data-category="construction" data-status="active">
+                    <div class="project-image">🏗️</div>
+                    <div class="project-content">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3>Community Kitchen Renovation</h3>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <div class="project-meta">
+                            <span>Category: Construction</span>
+                            <span>Duration: 6 weeks</span>
+                            <span>Participants: 2/5</span>
+                        </div>
+                        <div class="project-description">
+                            <p>Renovating our community kitchen using natural building techniques. Learn about sustainable construction methods.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                <li>Construction experience helpful</li>
+                                <li>Physical strength</li>
+                                <li>Safety training</li>
+                                <li>Commitment to learning</li>
+                            </ul>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%"></div>
+                                <span class="progress-text">30% Complete</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="join.html" class="btn btn-primary">Join Project</a>
+                            <a href="#" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forest Garden Design -->
+                <div class="project-card" data-category="gardening" data-status="proposed">
+                    <div class="project-image">🌿</div>
+                    <div class="project-content">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3>Forest Garden Design</h3>
+                            <span class="badge badge-warning">Proposed</span>
+                        </div>
+                        <div class="project-meta">
+                            <span>Category: Gardening</span>
+                            <span>Duration: 4 weeks</span>
+                            <span>Participants: 0/3</span>
+                        </div>
+                        <div class="project-description">
+                            <p>Designing and implementing a forest garden system using permaculture principles. Create a diverse, self-sustaining ecosystem.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                <li>Permaculture knowledge helpful</li>
+                                <li>Design thinking</li>
+                                <li>Physical work capacity</li>
+                                <li>Long-term vision</li>
+                            </ul>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                                <span class="progress-text">Planning Phase</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="join.html" class="btn btn-primary">Express Interest</a>
+                            <a href="#" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solar Panel Installation -->
+                <div class="project-card" data-category="maintenance" data-status="proposed">
+                    <div class="project-image">☀️</div>
+                    <div class="project-content">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3>Solar Panel Installation</h3>
+                            <span class="badge badge-warning">Proposed</span>
+                        </div>
+                        <div class="project-meta">
+                            <span>Category: Maintenance</span>
+                            <span>Duration: 2 weeks</span>
+                            <span>Participants: 0/4</span>
+                        </div>
+                        <div class="project-description">
+                            <p>Installing additional solar panels to increase our renewable energy capacity and reduce our carbon footprint.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                <li>Electrical experience preferred</li>
+                                <li>Safety training required</li>
+                                <li>Height work capability</li>
+                                <li>Technical aptitude</li>
+                            </ul>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                                <span class="progress-text">Planning Phase</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="join.html" class="btn btn-primary">Express Interest</a>
+                            <a href="#" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Workshop Series -->
+                <div class="project-card" data-category="learning" data-status="active">
+                    <div class="project-image">📚</div>
+                    <div class="project-content">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3>Community Workshop Series</h3>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <div class="project-meta">
+                            <span>Category: Learning</span>
+                            <span>Duration: Ongoing</span>
+                            <span>Participants: 8/15</span>
+                        </div>
+                        <div class="project-description">
+                            <p>Weekly workshops on sustainable living topics including natural building, organic gardening, and renewable energy.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                <li>Interest in learning</li>
+                                <li>Active participation</li>
+                                <li>Open mind</li>
+                                <li>Community spirit</li>
+                            </ul>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%"></div>
+                                <span class="progress-text">60% Complete</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="join.html" class="btn btn-primary">Join Workshop</a>
+                            <a href="#" class="btn btn-outline">View Schedule</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="text-center">
+                <h2>Ready to Get Involved?</h2>
+                <p>Join our community and contribute to meaningful projects that make a difference.</p>
+                <div class="hero-actions">
+                    <a href="join.html" class="btn btn-lg btn-primary">Apply to Join</a>
+                    <a href="contact.html" class="btn btn-lg btn-outline">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Foz da Cova Community Land Project. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:info@fozdacova.pt" style="color: var(--neutral-white);">info@fozdacova.pt</a></p>
+        </div>
+    </footer>
+
+    <script src="../dashboards/shared/js/main.js"></script>
+    <script>
+        // Project filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const statusFilter = document.getElementById('statusFilter');
+            const searchInput = document.getElementById('searchProjects');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            function filterProjects() {
+                const category = categoryFilter.value;
+                const status = statusFilter.value;
+                const search = searchInput.value.toLowerCase();
+
+                projectCards.forEach(card => {
+                    const cardCategory = card.dataset.category;
+                    const cardStatus = card.dataset.status;
+                    const cardText = card.textContent.toLowerCase();
+
+                    const categoryMatch = !category || cardCategory === category;
+                    const statusMatch = !status || cardStatus === status;
+                    const searchMatch = !search || cardText.includes(search);
+
+                    if (categoryMatch && statusMatch && searchMatch) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            categoryFilter.addEventListener('change', filterProjects);
+            statusFilter.addEventListener('change', filterProjects);
+            searchInput.addEventListener('input', filterProjects);
+        });
+    </script>
+</body>
+</html> 

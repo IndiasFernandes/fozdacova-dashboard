@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Foz da Cova Community Land Project</title>
+    <link rel="stylesheet" href="../dashboards/shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Public site specific styles */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+            color: var(--neutral-white);
+            padding: var(--space-12) 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-6);
+            color: var(--neutral-white);
+        }
+        
+        .hero p {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-8);
+            color: var(--neutral-white);
+            opacity: 0.9;
+        }
+        
+        .section {
+            padding: var(--space-12) 0;
+        }
+        
+        .section-alt {
+            background-color: var(--background-secondary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+        
+        .header {
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: var(--space-4) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: var(--space-6);
+            list-style: none;
+        }
+        
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-green);
+        }
+        
+        .footer {
+            background: var(--neutral-dark);
+            color: var(--neutral-white);
+            padding: var(--space-8) 0;
+            text-align: center;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+        }
+        
+        .contact-info {
+            background: var(--background-primary);
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .contact-icon {
+            font-size: var(--text-2xl);
+            color: var(--primary-green);
+            width: 40px;
+            text-align: center;
+        }
+        
+        .contact-details h4 {
+            margin-bottom: var(--space-1);
+        }
+        
+        .contact-details p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .contact-form {
+            background: var(--background-primary);
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        
+        .directions-section {
+            margin-top: var(--space-8);
+        }
+        
+        .direction-step {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+            padding: var(--space-4);
+            background: var(--background-primary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .step-number {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .emergency-contact {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            margin-top: var(--space-8);
+        }
+        
+        .emergency-contact h3 {
+            color: var(--neutral-white);
+            margin-bottom: var(--space-4);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <h2>Foz da Cova</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="calendar.html" class="nav-link">Calendar</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="join.html" class="nav-link">Join Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Get in touch with our community and learn more about joining Foz da Cova.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    <p>We'd love to hear from you! Reach out to learn more about our community and opportunities to join us.</p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>info@fozdacova.pt</p>
+                            <p>For general inquiries and applications</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p>+351 XXX XXX XXX</p>
+                            <p>Available during business hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <p>Central Portugal</p>
+                            <p>Exact address provided upon application</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">⏰</div>
+                        <div class="contact-details">
+                            <h4>Response Time</h4>
+                            <p>Within 24-48 hours</p>
+                            <p>We aim to respond to all inquiries promptly</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🌐</div>
+                        <div class="contact-details">
+                            <h4>Social Media</h4>
+                            <p>Follow us for updates</p>
+                            <p>Instagram: @fozdacova</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form">
+                    <h2>Send us a Message</h2>
+                    <form action="#" method="POST">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject *</label>
+                            <select id="subject" name="subject" class="form-select" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="application">Application Question</option>
+                                <option value="visit">Visit Request</option>
+                                <option value="project">Project Information</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message *</label>
+                            <textarea id="message" name="message" class="form-textarea" rows="6" required placeholder="Tell us about your interest in Foz da Cova..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <input type="checkbox" name="newsletter" style="margin-right: var(--space-2);">
+                                Subscribe to our newsletter for updates
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Directions -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Location & Directions</h2>
+            <p>Foz da Cova is located in the beautiful countryside of central Portugal, approximately 2 hours from Lisbon and 1.5 hours from Porto.</p>
+            
+            <div class="directions-section">
+                <h3>Getting Here</h3>
+                
+                <div class="direction-step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h4>By Car</h4>
+                        <p>We're accessible by car with parking available on-site. Exact directions will be provided upon application approval.</p>
+                    </div>
+                </div>
+                
+                <div class="direction-step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h4>By Public Transport</h4>
+                        <p>Bus connections are available from nearby towns. We can help coordinate pickup from the nearest bus stop.</p>
+                    </div>
+                </div>
+                
+                <div class="direction-step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h4>By Train</h4>
+                        <p>The nearest train station is 30 minutes away. We can arrange pickup from the station for approved visitors.</p>
+                    </div>
+                </div>
+                
+                <div class="direction-step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h4>What to Bring</h4>
+                        <p>Work clothes, sturdy shoes, personal toiletries, sleeping bag, and any specific items you need. We provide basic accommodation and meals.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="emergency-contact">
+                <h3>🚨 Emergency Contact</h3>
+                <p><strong>Emergency Phone:</strong> +351 XXX XXX XXX</p>
+                <p><strong>Local Hospital:</strong> 30 minutes away</p>
+                <p><strong>Nearest Police Station:</strong> 20 minutes away</p>
+                <p>In case of emergency, contact the local emergency services at 112</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>How do I apply to join?</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Fill out our application form on the Join Us page. We'll review your application and schedule an interview call to discuss your interest and answer questions.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Can I visit before applying?</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>We welcome visitors by appointment. Please contact us in advance to arrange your visit and discuss your interest in our community.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>What should I bring?</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Bring work clothes, sturdy shoes, personal toiletries, sleeping bag, and any specific items you need. We provide basic accommodation and meals.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>How long can I stay?</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>We prefer stays of 2 weeks or longer, with longer commitments encouraged. This allows for meaningful contribution and learning.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="text-center">
+                <h2>Ready to Join Our Community?</h2>
+                <p>Start your journey with Foz da Cova and become part of our regenerative living project.</p>
+                <div class="hero-actions">
+                    <a href="join.html" class="btn btn-lg btn-primary">Apply to Join</a>
+                    <a href="projects.html" class="btn btn-lg btn-outline">View Projects</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Foz da Cova Community Land Project. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:info@fozdacova.pt" style="color: var(--neutral-white);">info@fozdacova.pt</a></p>
+        </div>
+    </footer>
+
+    <script src="../dashboards/shared/js/main.js"></script>
+</body>
+</html> 
