@@ -107,6 +107,8 @@ npx serve .
 ### 🚀 Live Demo
 Visit the live website: [Foz da Cova Dashboard](https://fozdacova.indiasfernandes.com)
 
+> **Note**: The website is automatically deployed via GitHub Actions whenever changes are pushed to the main branch.
+
 ## 🎨 Design System
 
 ### Color Palette
