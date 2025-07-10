@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Resources - Admin Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .request-form {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-8);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-8);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: var(--space-3);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: var(--text-base);
+            transition: border-color 0.2s ease;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .btn-primary {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-primary:hover {
+            background: var(--primary-green-dark);
+        }
+        .my-requests {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .request-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .request-item:last-child {
+            border-bottom: none;
+        }
+        .request-info h4 {
+            margin: 0 0 var(--space-1) 0;
+            color: var(--text-primary);
+        }
+        .request-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+        .request-status {
+            padding: var(--space-1) var(--space-2);
+            border-radius: 4px;
+            font-size: var(--text-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-processing {
+            background: #cce5ff;
+            color: #004085;
+        }
+        .filters {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--border-color);
+            background: var(--background-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            border-color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Admin Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Open Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Requested Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="expenses.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Cost Tracking
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="budget.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Budget Overview
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Resources Request
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="request-resources.html" class="nav-link active">
+                        <span class="nav-icon">📝</span>
+                        Request Resources
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Request Resources</h1>
+                <p class="page-subtitle">Submit resource requests for project needs and system improvements</p>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Request Form -->
+                <div class="request-form">
+                    <h3>Submit New Resource Request</h3>
+                    <form id="resourceRequestForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Resource Title</label>
+                                <input type="text" class="form-input" id="title" placeholder="e.g., Water system tools" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" id="category" required>
+                                    <option value="">Select category...</option>
+                                    <option value="tools">🛠️ Tools & Equipment</option>
+                                    <option value="materials">📦 Materials & Supplies</option>
+                                    <option value="utilities">⚡ Utilities & Infrastructure</option>
+                                    <option value="maintenance">🔧 Maintenance & Repairs</option>
+                                    <option value="events">🎉 Events & Activities</option>
+                                    <option value="admin">📋 Administrative</option>
+                                    <option value="other">📝 Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Estimated Cost (€)</label>
+                                <input type="number" class="form-input" id="estimatedCost" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Urgency</label>
+                                <select class="form-select" id="urgency" required>
+                                    <option value="">Select urgency...</option>
+                                    <option value="low">🟢 Low - Can wait</option>
+                                    <option value="medium">🟡 Medium - Needed soon</option>
+                                    <option value="high">🔴 High - Urgent</option>
+                                    <option value="critical">🚨 Critical - Immediate</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Associated Project</label>
+                                <select class="form-select" id="project">
+                                    <option value="">Select project (optional)...</option>
+                                    <option value="water-system">💧 Water System Maintenance</option>
+                                    <option value="spring-garden">🌱 Spring Garden Planting</option>
+                                    <option value="kitchen-renovation">🏠 Community Kitchen Renovation</option>
+                                    <option value="solar-upgrade">☀️ Solar Panel Upgrade</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Vendor/Supplier</label>
+                                <input type="text" class="form-input" id="vendor" placeholder="e.g., Local hardware store">
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-textarea" id="description" placeholder="Describe the resource needed, its purpose, and any specific requirements..." required></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">Justification</label>
+                                <textarea class="form-textarea" id="justification" placeholder="Explain why this resource is needed and how it will benefit the community..." required></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Submit Request</button>
+                    </form>
+                </div>
+
+                <!-- My Requests -->
+                <div class="my-requests">
+                    <h3>My Resource Requests</h3>
+                    
+                    <!-- Filters -->
+                    <div class="filters">
+                        <button class="filter-btn active" onclick="filterRequests('all')">All Requests</button>
+                        <button class="filter-btn" onclick="filterRequests('pending')">Pending</button>
+                        <button class="filter-btn" onclick="filterRequests('approved')">Approved</button>
+                        <button class="filter-btn" onclick="filterRequests('rejected')">Rejected</button>
+                        <button class="filter-btn" onclick="filterRequests('processing')">Processing</button>
+                    </div>
+
+                    <div class="request-item" data-status="pending">
+                        <div class="request-info">
+                            <h4>Solar Panel Components</h4>
+                            <p><strong>Category:</strong> Utilities & Infrastructure | <strong>Cost:</strong> €320 | <strong>Urgency:</strong> High</p>
+                            <p><strong>Project:</strong> Solar Panel Upgrade | <strong>Submitted:</strong> Feb 12, 2024</p>
+                            <p><strong>Description:</strong> Replacement parts for solar panel system maintenance. System showing reduced efficiency and needs immediate attention.</p>
+                        </div>
+                        <span class="request-status status-pending">Pending</span>
+                    </div>
+
+                    <div class="request-item" data-status="approved">
+                        <div class="request-info">
+                            <h4>Garden Tools Set</h4>
+                            <p><strong>Category:</strong> Tools & Equipment | <strong>Cost:</strong> €150 | <strong>Urgency:</strong> Medium</p>
+                            <p><strong>Project:</strong> Spring Garden Planting | <strong>Submitted:</strong> Feb 10, 2024</p>
+                            <p><strong>Description:</strong> Complete set of garden tools needed for the spring planting project. Current tools are worn out and insufficient.</p>
+                        </div>
+                        <span class="request-status status-approved">Approved</span>
+                    </div>
+
+                    <div class="request-item" data-status="processing">
+                        <div class="request-info">
+                            <h4>Water Containers</h4>
+                            <p><strong>Category:</strong> Materials & Supplies | <strong>Cost:</strong> €200 | <strong>Urgency:</strong> High</p>
+                            <p><strong>Project:</strong> Water System Maintenance | <strong>Submitted:</strong> Feb 8, 2024</p>
+                            <p><strong>Description:</strong> Additional water containers for the water system expansion project. Current containers are at capacity.</p>
+                        </div>
+                        <span class="request-status status-processing">Processing</span>
+                    </div>
+
+                    <div class="request-item" data-status="rejected">
+                        <div class="request-info">
+                            <h4>Luxury Furniture Set</h4>
+                            <p><strong>Category:</strong> Other | <strong>Cost:</strong> €800 | <strong>Urgency:</strong> Low</p>
+                            <p><strong>Project:</strong> Lounge Upgrade | <strong>Submitted:</strong> Feb 5, 2024</p>
+                            <p><strong>Description:</strong> New furniture for the community lounge area to improve comfort and aesthetics.</p>
+                        </div>
+                        <span class="request-status status-rejected">Rejected</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+    <script>
+        function filterRequests(status) {
+            const items = document.querySelectorAll('.request-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter items
+            items.forEach(item => {
+                if (status === 'all' || item.dataset.status === status) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // Form submission
+        document.getElementById('resourceRequestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Resource request submitted successfully! 📝');
+            this.reset();
+        });
+    </script>
+</body>
+</html> 
