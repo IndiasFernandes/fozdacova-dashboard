@@ -12,15 +12,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Deploy to SFTP
+    - name: Deploy to FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ftp
         server-dir: /public_html/
-        protocol: sftp
-        port: 22
         exclude: |
           **/.git*
           **/.git*/**
