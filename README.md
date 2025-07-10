@@ -104,6 +104,9 @@ npx serve .
 - **Stewart**: `dashboards/stewart/index.html`
 - **WWOOFer**: `dashboards/wwoofer/index.html`
 
+### 🚀 Live Demo
+Visit the live website: [Foz da Cova Dashboard](https://fozdacova.indiasfernandes.com)
+
 ## 🎨 Design System
 
 ### Color Palette
