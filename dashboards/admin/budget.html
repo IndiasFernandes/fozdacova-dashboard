@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Overview - Admin Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        .budget-card {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .budget-number {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+        .budget-number.positive {
+            color: var(--accent-success);
+        }
+        .budget-number.negative {
+            color: var(--accent-danger);
+        }
+        .budget-number.neutral {
+            color: var(--primary-green);
+        }
+        .budget-label {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+        .budget-change {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .chart-container {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-8);
+        }
+        .chart-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+        }
+        .chart-placeholder {
+            height: 300px;
+            background: var(--background-secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: var(--text-lg);
+        }
+        .expense-breakdown {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+        .breakdown-category {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .breakdown-amount {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .breakdown-percentage {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .sidebar {
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            width: 100%;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .nav-icon {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Admin Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Open Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Requested Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="expenses.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Cost Tracking
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="budget.html" class="nav-link active">
+                        <span class="nav-icon">📊</span>
+                        Budget Overview
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Resources Request
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Budget Overview</h1>
+                <p class="page-subtitle">Financial summary and budget tracking for Foz da Cova</p>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Budget Summary Cards -->
+                <div class="budget-grid">
+                    <div class="budget-card">
+                        <div class="budget-number positive">€15,000</div>
+                        <div class="budget-label">Total Budget</div>
+                        <div class="budget-change">Annual allocation</div>
+                    </div>
+                    <div class="budget-card">
+                        <div class="budget-number negative">€2,450</div>
+                        <div class="budget-label">Total Expenses</div>
+                        <div class="budget-change">+€450 this month</div>
+                    </div>
+                    <div class="budget-card">
+                        <div class="budget-number positive">€12,550</div>
+                        <div class="budget-label">Remaining Budget</div>
+                        <div class="budget-change">83.7% remaining</div>
+                    </div>
+                    <div class="budget-card">
+                        <div class="budget-number neutral">€1,200</div>
+                        <div class="budget-label">Monthly Average</div>
+                        <div class="budget-change">€200/week</div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="chart-container">
+                    <h3 class="chart-title">Expense Trends</h3>
+                    <div class="chart-placeholder">
+                        📊 Monthly Expense Chart
+                    </div>
+                </div>
+
+                <!-- Expense Breakdown -->
+                <div class="expense-breakdown">
+                    <h3 class="chart-title">Expense Breakdown by Category</h3>
+                    <div class="breakdown-item">
+                        <div class="breakdown-category">
+                            <span>🛠️</span>
+                            <span>Tools & Equipment</span>
+                        </div>
+                        <div>
+                            <div class="breakdown-amount">€850</div>
+                            <div class="breakdown-percentage">34.7%</div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-category">
+                            <span>📦</span>
+                            <span>Materials & Supplies</span>
+                        </div>
+                        <div>
+                            <div class="breakdown-amount">€620</div>
+                            <div class="breakdown-percentage">25.3%</div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-category">
+                            <span>⚡</span>
+                            <span>Utilities</span>
+                        </div>
+                        <div>
+                            <div class="breakdown-amount">€480</div>
+                            <div class="breakdown-percentage">19.6%</div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-category">
+                            <span>🔧</span>
+                            <span>Maintenance</span>
+                        </div>
+                        <div>
+                            <div class="breakdown-amount">€320</div>
+                            <div class="breakdown-percentage">13.1%</div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-category">
+                            <span>🎉</span>
+                            <span>Events & Activities</span>
+                        </div>
+                        <div>
+                            <div class="breakdown-amount">€180</div>
+                            <div class="breakdown-percentage">7.3%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+</body>
+</html> 

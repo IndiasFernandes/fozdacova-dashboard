@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base - Admin Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        .knowledge-card {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .knowledge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .knowledge-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+        .knowledge-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .knowledge-status {
+            padding: var(--space-1) var(--space-3);
+            border-radius: 12px;
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+        .status-active {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+        }
+        .status-draft {
+            background: var(--accent-warning);
+            color: var(--neutral-dark);
+        }
+        .status-archived {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+        }
+        .knowledge-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+            line-height: 1.5;
+        }
+        .knowledge-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .knowledge-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        .btn-edit {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-edit:hover {
+            background: var(--primary-green-dark);
+        }
+        .btn-delete {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-delete:hover {
+            background: #c82333;
+        }
+        .btn-view {
+            background: var(--secondary-earth);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-view:hover {
+            background: var(--secondary-earth-dark);
+        }
+        .filters {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--border-color);
+            background: var(--background-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            border-color: var(--primary-green);
+        }
+        .add-resource-btn {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-bottom: var(--space-6);
+        }
+        .add-resource-btn:hover {
+            background: var(--primary-green-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Admin Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Open Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Requested Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="expenses.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Cost Tracking
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="budget.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Budget Overview
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Resources Request
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link active">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Knowledge Base</h1>
+                <p class="page-subtitle">Manage learning resources, guides, and community knowledge</p>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Filters and Add Button -->
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterResources('all')">All Resources</button>
+                    <button class="filter-btn" onclick="filterResources('guides')">Guides</button>
+                    <button class="filter-btn" onclick="filterResources('contacts')">Contacts</button>
+                    <button class="filter-btn" onclick="filterResources('maps')">Maps</button>
+                    <button class="filter-btn" onclick="filterResources('notion')">Notion</button>
+                </div>
+                
+                <button class="add-resource-btn" onclick="addNewResource()">+ Add New Resource</button>
+
+                <!-- Knowledge Resources Grid -->
+                <div class="knowledge-grid">
+                    <div class="knowledge-card" data-category="guides">
+                        <div class="knowledge-header">
+                            <h3 class="knowledge-title">Water System Maintenance Guide</h3>
+                            <span class="knowledge-status status-active">Active</span>
+                        </div>
+                        <p class="knowledge-description">Complete guide for maintaining the water system, including troubleshooting, repairs, and preventive maintenance procedures.</p>
+                        <div class="knowledge-meta">
+                            <div class="meta-item">
+                                <span>📚</span>
+                                <span>Category: Guides</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>Created by: Admin</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Updated: Feb 10</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📄</span>
+                                <span>Type: Document</span>
+                            </div>
+                        </div>
+                        <div class="knowledge-actions">
+                            <button class="btn-view" onclick="viewResource(1)">View</button>
+                            <button class="btn-edit" onclick="editResource(1)">Edit</button>
+                            <button class="btn-delete" onclick="deleteResource(1)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="contacts">
+                        <div class="knowledge-header">
+                            <h3 class="knowledge-title">Emergency Contacts</h3>
+                            <span class="knowledge-status status-active">Active</span>
+                        </div>
+                        <p class="knowledge-description">Essential emergency contacts including local services, medical facilities, and community support numbers.</p>
+                        <div class="knowledge-meta">
+                            <div class="meta-item">
+                                <span>📞</span>
+                                <span>Category: Contacts</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>Created by: Admin</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Updated: Feb 8</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📄</span>
+                                <span>Type: Contact List</span>
+                            </div>
+                        </div>
+                        <div class="knowledge-actions">
+                            <button class="btn-view" onclick="viewResource(2)">View</button>
+                            <button class="btn-edit" onclick="editResource(2)">Edit</button>
+                            <button class="btn-delete" onclick="deleteResource(2)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="maps">
+                        <div class="knowledge-header">
+                            <h3 class="knowledge-title">Property Map & Layout</h3>
+                            <span class="knowledge-status status-active">Active</span>
+                        </div>
+                        <p class="knowledge-description">Detailed map of the property showing buildings, gardens, water systems, and key infrastructure locations.</p>
+                        <div class="knowledge-meta">
+                            <div class="meta-item">
+                                <span>🗺️</span>
+                                <span>Category: Maps</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>Created by: Admin</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Updated: Feb 5</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📄</span>
+                                <span>Type: Map</span>
+                            </div>
+                        </div>
+                        <div class="knowledge-actions">
+                            <button class="btn-view" onclick="viewResource(3)">View</button>
+                            <button class="btn-edit" onclick="editResource(3)">Edit</button>
+                            <button class="btn-delete" onclick="deleteResource(3)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="notion">
+                        <div class="knowledge-header">
+                            <h3 class="knowledge-title">Community Hub</h3>
+                            <span class="knowledge-status status-active">Active</span>
+                        </div>
+                        <p class="knowledge-description">Central Notion workspace with project documentation, learning resources, and community guidelines.</p>
+                        <div class="knowledge-meta">
+                            <div class="meta-item">
+                                <span>📝</span>
+                                <span>Category: Notion</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>Created by: Admin</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Updated: Feb 12</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📄</span>
+                                <span>Type: Link</span>
+                            </div>
+                        </div>
+                        <div class="knowledge-actions">
+                            <button class="btn-view" onclick="viewResource(4)">View</button>
+                            <button class="btn-edit" onclick="editResource(4)">Edit</button>
+                            <button class="btn-delete" onclick="deleteResource(4)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="guides">
+                        <div class="knowledge-header">
+                            <h3 class="knowledge-title">Garden Planting Calendar</h3>
+                            <span class="knowledge-status status-draft">Draft</span>
+                        </div>
+                        <p class="knowledge-description">Seasonal planting guide with optimal timing for different crops and maintenance schedules.</p>
+                        <div class="knowledge-meta">
+                            <div class="meta-item">
+                                <span>📚</span>
+                                <span>Category: Guides</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>Created by: Maria Silva</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Created: Feb 15</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📄</span>
+                                <span>Type: Document</span>
+                            </div>
+                        </div>
+                        <div class="knowledge-actions">
+                            <button class="btn-view" onclick="viewResource(5)">View</button>
+                            <button class="btn-edit" onclick="editResource(5)">Edit</button>
+                            <button class="btn-delete" onclick="deleteResource(5)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+    <script>
+        function filterResources(category) {
+            const cards = document.querySelectorAll('.knowledge-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function viewResource(id) {
+            alert(`View resource ${id} - This would show the resource content`);
+        }
+        
+        function editResource(id) {
+            alert(`Edit resource ${id} - This would open an edit form`);
+        }
+        
+        function deleteResource(id) {
+            if (confirm('Are you sure you want to delete this resource? This action cannot be undone.')) {
+                alert(`Resource ${id} deleted successfully`);
+            }
+        }
+        
+        function addNewResource() {
+            alert('Add new resource - This would open a resource creation form');
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requested Projects - Admin Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .proposal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        .proposal-card {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .proposal-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .proposal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+        .proposal-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .proposal-status {
+            padding: var(--space-1) var(--space-3);
+            border-radius: 12px;
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+        .status-pending {
+            background: var(--accent-warning);
+            color: var(--neutral-dark);
+        }
+        .status-approved {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+        }
+        .status-rejected {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+        }
+        .proposal-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+            line-height: 1.5;
+        }
+        .proposal-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .proposal-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        .btn-approve {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-approve:hover {
+            background: #218838;
+        }
+        .btn-reject {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-reject:hover {
+            background: #c82333;
+        }
+        .btn-view {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-view:hover {
+            background: var(--primary-green-dark);
+        }
+        .filters {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--border-color);
+            background: var(--background-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            border-color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Admin Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Open Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link active">
+                        <span class="nav-icon">📝</span>
+                        Requested Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="expenses.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Cost Tracking
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="budget.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Budget Overview
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Resources Request
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Requested Projects</h1>
+                <p class="page-subtitle">Review and approve project proposals from WWOOFers</p>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Filters -->
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterProposals('all')">All Proposals</button>
+                    <button class="filter-btn" onclick="filterProposals('pending')">Pending</button>
+                    <button class="filter-btn" onclick="filterProposals('approved')">Approved</button>
+                    <button class="filter-btn" onclick="filterProposals('rejected')">Rejected</button>
+                </div>
+
+                <!-- Proposals Grid -->
+                <div class="proposal-grid">
+                    <div class="proposal-card" data-status="pending">
+                        <div class="proposal-header">
+                            <h3 class="proposal-title">Compost Bin Expansion</h3>
+                            <span class="proposal-status status-pending">Pending</span>
+                        </div>
+                        <p class="proposal-description">Expand the composting system with additional bins and improved aeration for better organic waste processing and soil enrichment.</p>
+                        <div class="proposal-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Proposed by: João Santos</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 10</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Duration: 1-2 weeks</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🌿</span>
+                                <span>Sustainability</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>👥</span>
+                                <span>Leadership: Yes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Budget: €150</span>
+                            </div>
+                        </div>
+                        <div class="proposal-actions">
+                            <button class="btn-view" onclick="viewProposal(1)">View Details</button>
+                            <button class="btn-approve" onclick="approveProposal(1)">Approve</button>
+                            <button class="btn-reject" onclick="rejectProposal(1)">Reject</button>
+                        </div>
+                    </div>
+
+                    <div class="proposal-card" data-status="pending">
+                        <div class="proposal-header">
+                            <h3 class="proposal-title">Solar Panel Upgrade</h3>
+                            <span class="proposal-status status-pending">Pending</span>
+                        </div>
+                        <p class="proposal-description">Upgrade existing solar panel system with additional panels and improved battery storage for better energy efficiency.</p>
+                        <div class="proposal-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Proposed by: Maria Silva</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 8</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Duration: 2-3 weeks</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🌿</span>
+                                <span>Sustainability</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>👥</span>
+                                <span>Leadership: Maybe</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Budget: €800</span>
+                            </div>
+                        </div>
+                        <div class="proposal-actions">
+                            <button class="btn-view" onclick="viewProposal(2)">View Details</button>
+                            <button class="btn-approve" onclick="approveProposal(2)">Approve</button>
+                            <button class="btn-reject" onclick="rejectProposal(2)">Reject</button>
+                        </div>
+                    </div>
+
+                    <div class="proposal-card" data-status="approved">
+                        <div class="proposal-header">
+                            <h3 class="proposal-title">Community Tool Shed</h3>
+                            <span class="proposal-status status-approved">Approved</span>
+                        </div>
+                        <p class="proposal-description">Build a dedicated tool shed for organizing and storing community tools and equipment with proper security.</p>
+                        <div class="proposal-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Proposed by: Ana Costa</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 5</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Duration: 1 week</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🏗️</span>
+                                <span>Natural Building</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>👥</span>
+                                <span>Leadership: Yes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Budget: €300</span>
+                            </div>
+                        </div>
+                        <div class="proposal-actions">
+                            <button class="btn-view" onclick="viewProposal(3)">View Details</button>
+                            <button class="btn-approve" disabled>Approved</button>
+                        </div>
+                    </div>
+
+                    <div class="proposal-card" data-status="rejected">
+                        <div class="proposal-header">
+                            <h3 class="proposal-title">Swimming Pool Construction</h3>
+                            <span class="proposal-status status-rejected">Rejected</span>
+                        </div>
+                        <p class="proposal-description">Build a natural swimming pool using local materials and sustainable water filtration systems.</p>
+                        <div class="proposal-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Proposed by: Carlos Lima</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 3</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Duration: 2-3 months</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🏗️</span>
+                                <span>Natural Building</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>👥</span>
+                                <span>Leadership: No</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Budget: €5000</span>
+                            </div>
+                        </div>
+                        <div class="proposal-actions">
+                            <button class="btn-view" onclick="viewProposal(4)">View Details</button>
+                            <button class="btn-reject" disabled>Rejected</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+    <script>
+        function filterProposals(status) {
+            const cards = document.querySelectorAll('.proposal-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (status === 'all' || card.dataset.status === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function viewProposal(id) {
+            alert(`View proposal ${id} - This would show detailed proposal information`);
+        }
+        
+        function approveProposal(id) {
+            if (confirm('Are you sure you want to approve this proposal? This will create a new project.')) {
+                alert(`Proposal ${id} approved successfully! A new project has been created.`);
+            }
+        }
+        
+        function rejectProposal(id) {
+            if (confirm('Are you sure you want to reject this proposal? This action cannot be undone.')) {
+                alert(`Proposal ${id} rejected successfully.`);
+            }
+        }
+    </script>
+</body>
+</html> 

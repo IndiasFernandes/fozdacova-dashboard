@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources Request - Admin Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .request-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        .request-card {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .request-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .request-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+        .request-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .request-status {
+            padding: var(--space-1) var(--space-3);
+            border-radius: 12px;
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+        .status-pending {
+            background: var(--accent-warning);
+            color: var(--neutral-dark);
+        }
+        .status-approved {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+        }
+        .status-rejected {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+        }
+        .request-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+            line-height: 1.5;
+        }
+        .request-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .request-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        .btn-approve {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-approve:hover {
+            background: #218838;
+        }
+        .btn-reject {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-reject:hover {
+            background: #c82333;
+        }
+        .btn-view {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-view:hover {
+            background: var(--primary-green-dark);
+        }
+        .filters {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--border-color);
+            background: var(--background-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            border-color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Admin Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Open Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Requested Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="expenses.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Cost Tracking
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="budget.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Budget Overview
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link active">
+                        <span class="nav-icon">🛠️</span>
+                        Resources Request
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Resources Request</h1>
+                <p class="page-subtitle">Review and approve resource requests from stewards</p>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Filters -->
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterRequests('all')">All Requests</button>
+                    <button class="filter-btn" onclick="filterRequests('pending')">Pending</button>
+                    <button class="filter-btn" onclick="filterRequests('approved')">Approved</button>
+                    <button class="filter-btn" onclick="filterRequests('rejected')">Rejected</button>
+                </div>
+
+                <!-- Requests Grid -->
+                <div class="request-grid">
+                    <div class="request-card" data-status="pending">
+                        <div class="request-header">
+                            <h3 class="request-title">Additional Water Containers</h3>
+                            <span class="request-status status-pending">Pending</span>
+                        </div>
+                        <p class="request-description">Need 2 additional water containers for the water system expansion project. Current containers are at capacity.</p>
+                        <div class="request-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Requested by: Maria Silva</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 12</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Estimated Cost: €200</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Urgency: High</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📋</span>
+                                <span>Project: Water System</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🛠️</span>
+                                <span>Category: Equipment</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn-view" onclick="viewRequest(1)">View Details</button>
+                            <button class="btn-approve" onclick="approveRequest(1)">Approve</button>
+                            <button class="btn-reject" onclick="rejectRequest(1)">Reject</button>
+                        </div>
+                    </div>
+
+                    <div class="request-card" data-status="pending">
+                        <div class="request-header">
+                            <h3 class="request-title">Garden Tools Set</h3>
+                            <span class="request-status status-pending">Pending</span>
+                        </div>
+                        <p class="request-description">Complete set of garden tools needed for the spring planting project. Current tools are worn out and insufficient.</p>
+                        <div class="request-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Requested by: João Santos</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 10</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Estimated Cost: €150</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Urgency: Medium</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📋</span>
+                                <span>Project: Spring Garden</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🛠️</span>
+                                <span>Category: Tools</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn-view" onclick="viewRequest(2)">View Details</button>
+                            <button class="btn-approve" onclick="approveRequest(2)">Approve</button>
+                            <button class="btn-reject" onclick="rejectRequest(2)">Reject</button>
+                        </div>
+                    </div>
+
+                    <div class="request-card" data-status="approved">
+                        <div class="request-header">
+                            <h3 class="request-title">Solar Panel Components</h3>
+                            <span class="request-status status-approved">Approved</span>
+                        </div>
+                        <p class="request-description">Replacement parts for solar panel system maintenance. System showing reduced efficiency.</p>
+                        <div class="request-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Requested by: Ana Costa</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 8</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Estimated Cost: €320</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Urgency: High</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📋</span>
+                                <span>Project: Solar Maintenance</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🛠️</span>
+                                <span>Category: Equipment</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn-view" onclick="viewRequest(3)">View Details</button>
+                            <button class="btn-approve" disabled>Approved</button>
+                        </div>
+                    </div>
+
+                    <div class="request-card" data-status="rejected">
+                        <div class="request-header">
+                            <h3 class="request-title">Luxury Furniture Set</h3>
+                            <span class="request-status status-rejected">Rejected</span>
+                        </div>
+                        <p class="request-description">New furniture for the community lounge area to improve comfort and aesthetics.</p>
+                        <div class="request-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Requested by: Carlos Lima</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 5</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Estimated Cost: €800</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Urgency: Low</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📋</span>
+                                <span>Project: Lounge Upgrade</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🛠️</span>
+                                <span>Category: Furniture</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn-view" onclick="viewRequest(4)">View Details</button>
+                            <button class="btn-reject" disabled>Rejected</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+    <script>
+        function filterRequests(status) {
+            const cards = document.querySelectorAll('.request-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (status === 'all' || card.dataset.status === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function viewRequest(id) {
+            alert(`View request ${id} - This would show detailed request information`);
+        }
+        
+        function approveRequest(id) {
+            if (confirm('Are you sure you want to approve this resource request?')) {
+                alert(`Request ${id} approved successfully!`);
+            }
+        }
+        
+        function rejectRequest(id) {
+            if (confirm('Are you sure you want to reject this resource request?')) {
+                alert(`Request ${id} rejected successfully.`);
+            }
+        }
+    </script>
+</body>
+</html> 

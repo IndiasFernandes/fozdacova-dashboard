@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Projects - Admin Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        .project-card {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .project-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+        .project-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .project-status {
+            padding: var(--space-1) var(--space-3);
+            border-radius: 12px;
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+        .status-active {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+        }
+        .status-completed {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .status-pending {
+            background: var(--accent-warning);
+            color: var(--neutral-dark);
+        }
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+            line-height: 1.5;
+        }
+        .project-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .project-progress {
+            margin-bottom: var(--space-4);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--background-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-green);
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            position: absolute;
+            right: 0;
+            top: -20px;
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .project-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        .btn-edit {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-edit:hover {
+            background: var(--primary-green-dark);
+        }
+        .btn-delete {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-delete:hover {
+            background: #c82333;
+        }
+        .filters {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--border-color);
+            background: var(--background-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            border-color: var(--primary-green);
+        }
+        .add-project-btn {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-bottom: var(--space-6);
+        }
+        .add-project-btn:hover {
+            background: var(--primary-green-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Admin Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link active">
+                        <span class="nav-icon">📋</span>
+                        Open Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Requested Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="expenses.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Cost Tracking
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="budget.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Budget Overview
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Resources Request
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Open Projects</h1>
+                <p class="page-subtitle">Manage all active projects and their progress</p>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Filters and Add Button -->
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
+                    <button class="filter-btn" onclick="filterProjects('active')">Active</button>
+                    <button class="filter-btn" onclick="filterProjects('completed')">Completed</button>
+                    <button class="filter-btn" onclick="filterProjects('pending')">Pending</button>
+                </div>
+                
+                <button class="add-project-btn" onclick="addNewProject()">+ Add New Project</button>
+
+                <!-- Projects Grid -->
+                <div class="project-grid">
+                    <div class="project-card" data-status="active">
+                        <div class="project-header">
+                            <h3 class="project-title">Water System Maintenance</h3>
+                            <span class="project-status status-active">Active</span>
+                        </div>
+                        <p class="project-description">Install and maintain water containers with proper piping system for improved water distribution across the property.</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span>👥</span>
+                                <span>Coordinator: Maria Silva</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>3 participants</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Due: Feb 15</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>💧</span>
+                                <span>Water Systems</span>
+                            </div>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                                <span class="progress-text">75%</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-edit" onclick="editProject(1)">Edit</button>
+                            <button class="btn-delete" onclick="deleteProject(1)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-status="active">
+                        <div class="project-header">
+                            <h3 class="project-title">Spring Garden Planting</h3>
+                            <span class="project-status status-active">Active</span>
+                        </div>
+                        <p class="project-description">Plant and maintain seasonal vegetables and herbs in the community garden with proper irrigation setup.</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span>👥</span>
+                                <span>Coordinator: João Santos</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>4 participants</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Due: Feb 20</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>🌱</span>
+                                <span>Gardening</span>
+                            </div>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                                <span class="progress-text">45%</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-edit" onclick="editProject(2)">Edit</button>
+                            <button class="btn-delete" onclick="deleteProject(2)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-status="active">
+                        <div class="project-header">
+                            <h3 class="project-title">Community Kitchen Renovation</h3>
+                            <span class="project-status status-active">Active</span>
+                        </div>
+                        <p class="project-description">Renovate the community kitchen with improved storage, workspace, and cooking facilities for better meal preparation.</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span>👥</span>
+                                <span>Coordinator: Maria Silva</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>2 participants</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Due: Mar 1</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>🏠</span>
+                                <span>Housekeeping</span>
+                            </div>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%"></div>
+                                <span class="progress-text">30%</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-edit" onclick="editProject(3)">Edit</button>
+                            <button class="btn-delete" onclick="deleteProject(3)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-status="completed">
+                        <div class="project-header">
+                            <h3 class="project-title">Bed Linen Organization</h3>
+                            <span class="project-status status-completed">Completed</span>
+                        </div>
+                        <p class="project-description">Organize and tag bed linens for all three houses with proper storage system for easy access and maintenance.</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span>👥</span>
+                                <span>Coordinator: Ana Costa</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>2 participants</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Completed: Jan 30</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>🏠</span>
+                                <span>Housekeeping</span>
+                            </div>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                                <span class="progress-text">100%</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-edit" onclick="editProject(4)">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+    <script>
+        function filterProjects(status) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (status === 'all' || card.dataset.status === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function editProject(id) {
+            alert(`Edit project ${id} - This would open an edit form`);
+        }
+        
+        function deleteProject(id) {
+            if (confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
+                alert(`Project ${id} deleted successfully`);
+            }
+        }
+        
+        function addNewProject() {
+            alert('Add new project - This would open a project creation form');
+        }
+    </script>
+</body>
+</html> 
