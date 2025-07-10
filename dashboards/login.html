@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Foz da Cova Dashboard</title>
+    <link rel="stylesheet" href="shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+            padding: var(--space-4);
+        }
+        
+        .login-card {
+            background: var(--background-primary);
+            padding: var(--space-8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+        
+        .login-header h1 {
+            color: var(--primary-green);
+            margin-bottom: var(--space-2);
+        }
+        
+        .login-header p {
+            color: var(--text-secondary);
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--text-base);
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--text-base);
+            background-color: var(--background-primary);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: var(--space-4) var(--space-6);
+            background-color: var(--primary-green);
+            color: var(--neutral-white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--text-base);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-login:hover {
+            background-color: var(--primary-green-dark);
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: var(--space-6);
+        }
+        
+        .login-footer a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .demo-accounts {
+            margin-top: var(--space-6);
+            padding: var(--space-4);
+            background: var(--background-secondary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .demo-accounts h4 {
+            margin-bottom: var(--space-3);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        
+        .demo-account {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .demo-account:last-child {
+            border-bottom: none;
+        }
+        
+        .demo-account-info {
+            font-size: var(--text-sm);
+        }
+        
+        .demo-account-role {
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+        }
+        
+        .demo-account-btn {
+            padding: var(--space-1) var(--space-3);
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Foz da Cova</h1>
+                <p>Dashboard Login</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role" class="form-label">Role</label>
+                    <select id="role" name="role" class="form-select" required>
+                        <option value="">Select your role</option>
+                        <option value="admin">Admin</option>
+                        <option value="stewart">Stewart</option>
+                        <option value="wwoofer">WWOOFer</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+            
+            <div class="demo-accounts">
+                <h4>Demo Account (Click to auto-fill)</h4>
+                <!--
+                <div class="demo-account">
+                    <div>
+                        <div class="demo-account-info">admin / admin123</div>
+                        <div class="demo-account-role">Full system access</div>
+                    </div>
+                    <button class="demo-account-btn" onclick="fillDemo('admin', 'admin123', 'admin')">Use</button>
+                </div> 
+                <div class="demo-account">
+                    <div>
+                        <div class="demo-account-info">stewart / stewart123</div>
+                        <div class="demo-account-role">Project coordination</div>
+                    </div>
+                    <button class="demo-account-btn" onclick="fillDemo('stewart', 'stewart123', 'stewart')">Use</button>
+                </div> 
+                -->
+                <div class="demo-account">
+                    <div>
+                        <div class="demo-account-info">wwoofer / wwoofer123</div>
+                        <div class="demo-account-role">Project participation</div>
+                    </div>
+                    <button class="demo-account-btn" onclick="fillDemo('wwoofer', 'wwoofer123', 'wwoofer')">Use</button>
+                </div>
+            </div>
+            
+            <div class="login-footer">
+                <p>Don't have an account? <a href="../public/join.html">Apply to join</a></p>
+                <!--<p><a href="../public/index.html">← Back to main site</a></p>-->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fillDemo(username, password, role) {
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+            document.getElementById('role').value = role;
+        }
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            
+            // Simple validation
+            if (!username || !password || !role) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Redirect based on role
+            switch(role) {
+                case 'admin':
+                    window.location.href = 'admin/index.html';
+                    break;
+                case 'stewart':
+                    window.location.href = 'stewart/index.html';
+                    break;
+                case 'wwoofer':
+                    window.location.href = 'wwoofer/index.html';
+                    break;
+                default:
+                    alert('Please select a valid role');
+            }
+        });
+    </script>
+</body>
+</html> 
