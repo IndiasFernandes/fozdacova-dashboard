@@ -166,13 +166,58 @@
             margin-bottom: var(--space-4);
         }
         
+        /* Responsive Design */
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
             }
             
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
             .contact-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        /* Floating Help Button */
+        .floating-help {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(45, 90, 39, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .floating-help:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(45, 90, 39, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .floating-help {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -205,57 +250,59 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact Information -->
     <section class="section">
         <div class="container">
             <div class="contact-grid">
-                <!-- Contact Information -->
+                <!-- Contact Details -->
                 <div class="contact-info">
                     <h2>Get in Touch</h2>
-                    <p>We'd love to hear from you! Reach out to learn more about our community and opportunities to join us.</p>
+                    <p>We'd love to hear from you! Whether you're interested in joining our community, have questions about our projects, or just want to learn more, we're here to help.</p>
                     
-                    <div class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <div class="contact-details">
-                            <h4>Email</h4>
-                            <p>info@fozdacova.pt</p>
-                            <p>For general inquiries and applications</p>
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>community.fozdacova@gmail.com</p>
+                                <p>We respond within 24-48 hours</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">📞</div>
-                        <div class="contact-details">
-                            <h4>Phone</h4>
-                            <p>+351 XXX XXX XXX</p>
-                            <p>Available during business hours</p>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <p>+351 XXX XXX XXX</p>
+                                <p>Available during business hours</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div class="contact-details">
-                            <h4>Location</h4>
-                            <p>Central Portugal</p>
-                            <p>Exact address provided upon application</p>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-details">
+                                <h4>Location</h4>
+                                <p>Central Portugal</p>
+                                <p>Exact address provided upon application</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">⏰</div>
-                        <div class="contact-details">
-                            <h4>Response Time</h4>
-                            <p>Within 24-48 hours</p>
-                            <p>We aim to respond to all inquiries promptly</p>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">⏰</div>
+                            <div class="contact-details">
+                                <h4>Response Time</h4>
+                                <p>Within 24-48 hours</p>
+                                <p>We aim to respond to all inquiries promptly</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">🌐</div>
-                        <div class="contact-details">
-                            <h4>Social Media</h4>
-                            <p>Follow us for updates</p>
-                            <p>Instagram: @fozdacova</p>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">🌐</div>
+                            <div class="contact-details">
+                                <h4>Social Media</h4>
+                                <p>Follow us for updates</p>
+                                <p>Instagram: @fozdacova</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -425,6 +472,9 @@
             <p>Contact us: <a href="mailto:info@fozdacova.pt" style="color: var(--neutral-white);">info@fozdacova.pt</a></p>
         </div>
     </footer>
+
+    <!-- Floating Help Button -->
+    <a href="how-to.html" class="floating-help" title="How To Guide">?</a>
 
     <script src="../dashboards/shared/js/main.js"></script>
 </body>

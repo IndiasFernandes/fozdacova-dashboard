@@ -348,6 +348,42 @@
         font-size: 1rem;
       }
     }
+
+    /* Floating Help Button */
+    .floating-help {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: var(--primary-green);
+      color: var(--neutral-white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(45, 90, 39, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .floating-help:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 25px rgba(45, 90, 39, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .floating-help {
+        bottom: 1rem;
+        right: 1rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -564,6 +600,9 @@
       <p style="margin-top: 0.5rem; opacity: 0.8;">Building a sustainable future together.</p>
     </div>
   </footer>
+
+  <!-- Floating Help Button -->
+  <a href="how-to.html" class="floating-help" title="How To Guide">?</a>
 
   <script>
     // Form submission handling

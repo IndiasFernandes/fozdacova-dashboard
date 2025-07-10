@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How To Use Your WWOOFer Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #2d5a27;
+      --primary-green-light: #4a7c59;
+      --secondary-earth: #8b7355;
+      --neutral-white: #ffffff;
+      --neutral-light: #f8f9fa;
+      --neutral-gray: #6c757d;
+      --neutral-dark: #343a40;
+      --accent-warm: #d4a574;
+      --accent-cool: #87ceeb;
+      --text-primary: var(--neutral-dark);
+      --text-secondary: var(--neutral-gray);
+      --background-primary: var(--neutral-white);
+      --background-secondary: var(--neutral-light);
+      --border-color: #dee2e6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .simple-header {
+      background: var(--background-primary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 0;
+      text-align: center;
+    }
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-green);
+      margin: 0;
+    }
+    .main-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    .hero-section {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-green-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+    .steps-container {
+      display: grid;
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+    .step-card {
+      background: var(--background-primary);
+      border-radius: 20px;
+      padding: 3rem 2rem 2.5rem 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: visible;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .step-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-green), var(--accent-warm));
+    }
+    .step-number {
+      position: absolute;
+      top: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-green);
+      color: var(--neutral-white);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(45, 90, 39, 0.3);
+      z-index: 2;
+      border: 4px solid var(--background-primary);
+    }
+    .step-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .step-description {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+      text-align: center;
+    }
+    .step-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .action-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--primary-green);
+      color: var(--neutral-white);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+    .action-button:hover {
+      background: var(--primary-green-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(45, 90, 39, 0.3);
+    }
+    .action-button.secondary {
+      background: var(--secondary-earth);
+    }
+    .action-button.secondary:hover {
+      background: var(--accent-warm);
+    }
+    .floating-help {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: var(--primary-green);
+      color: var(--neutral-white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(45, 90, 39, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    .floating-help:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 25px rgba(45, 90, 39, 0.4);
+    }
+    .inspiration-section {
+      background: var(--background-primary);
+      border-radius: 20px;
+      padding: 3rem;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-color);
+    }
+    .inspiration-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+    }
+    .inspiration-text {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .heart-emoji {
+      font-size: 2rem;
+      display: block;
+      margin: 1rem 0;
+    }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2rem; }
+      .step-card { padding: 2rem 1rem 2rem 1rem; }
+      .step-title { font-size: 1.2rem; }
+      .step-actions { flex-direction: column; }
+      .action-button { justify-content: center; }
+      .floating-help { bottom: 1rem; right: 1rem; width: 50px; height: 50px; font-size: 1.25rem; }
+      .main-content { padding: 2rem 1rem; }
+      .step-number { width: 48px; height: 48px; font-size: 1.2rem; top: -24px; }
+    }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 1.5rem; }
+      .step-card { padding: 1.5rem 0.5rem 1.5rem 0.5rem; }
+      .step-number { width: 40px; height: 40px; font-size: 1rem; top: -18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="simple-header">
+    <div class="header-content">
+      <h1 class="header-title">Foz da Cova WWOOFer Dashboard</h1>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="hero-section">
+      <h1 class="hero-title">How to Use Your Dashboard</h1>
+      <p class="hero-subtitle">This is your space to organize your work, join projects, and help our community grow. Here’s how to make the most of your time at Foz da Cova as a WWOOFer!</p>
+    </div>
+    <div class="steps-container">
+      <!-- Step 1 -->
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h2 class="step-title">🌱 Log Your Time & Activities</h2>
+        <p class="step-description">
+          Organize your time independently. Every time you work on a project, <b>log your hours</b> and what you accomplished. This helps us understand your contributions and helps you track your own progress.
+        </p>
+        <div class="step-actions">
+          <a href="activities.html" class="action-button">⏱️ Log Hours</a>
+          <a href="projects.html" class="action-button secondary">📋 Join Projects</a>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h2 class="step-title">🏠 Adapt & Create Projects</h2>
+        <p class="step-description">
+          We have our priorities, but you’re always welcome to adapt to your skills. Feel free to join, modify, or <b>propose new projects</b> that match your interests and abilities. This is also your home! 💚
+        </p>
+        <div class="step-actions">
+          <a href="propose.html" class="action-button">📝 Propose Project</a>
+          <a href="learning.html" class="action-button secondary">📚 Learning Resources</a>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h2 class="step-title">💡 Share Your Feedback</h2>
+        <p class="step-description">
+          Your feedback is essential! Share your ideas, suggestions, or anything you think could improve our community. We’re always listening.
+        </p>
+        <div class="step-actions">
+          <a href="suggestions.html" class="action-button">💡 Ideas & Suggestions</a>
+        </div>
+      </div>
+    </div>
+    <div class="inspiration-section">
+      <h2 class="inspiration-title">Welcome to Your Community</h2>
+      <p class="inspiration-text">
+        This is more than just a place to work – it’s a space to grow, learn, and contribute to something meaningful. Every project, every hour logged, every idea shared helps build our regenerative community.
+      </p>
+      <span class="heart-emoji">💚</span>
+      <p class="inspiration-text">
+        Remember: You’re not just helping us, you’re helping create a sustainable future for everyone. Your unique skills and perspective are valuable here.
+      </p>
+    </div>
+  </div>
+  <!-- Floating Help Button -->
+  <a href="how-to.html" class="floating-help" title="How To Guide">?</a>
+</body>
+</html> 
