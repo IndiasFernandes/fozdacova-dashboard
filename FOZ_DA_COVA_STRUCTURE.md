@@ -244,6 +244,144 @@ CREATE TABLE event_attendees (
 );
 ```
 
+#### Activity Logs Table
+```sql
+CREATE TABLE activity_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    applicant_id INTEGER NOT NULL,
+    task_id INTEGER,
+    project_id INTEGER,
+    category TEXT CHECK(category IN ('water-systems', 'natural-building', 'gardening', 'land-maintenance', 'housekeeping', 'community', 'education', 'sustainability')),
+    title TEXT NOT NULL,
+    description TEXT,
+    start_time TIME,
+    end_time TIME,
+    hours_worked DECIMAL(4,2),
+    mood TEXT CHECK(mood IN ('great', 'good', 'okay', 'difficult')),
+    location TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (applicant_id) REFERENCES applicants(id),
+    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE SET NULL,
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL
+);
+```
+
+#### Agreements Table
+```sql
+CREATE TABLE agreements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    applicant_id INTEGER NOT NULL,
+    agreement_type TEXT CHECK(agreement_type IN ('wwoof', 'volunteer', 'internship', 'other')),
+    agreement_name TEXT NOT NULL,
+    valid_from DATE,
+    valid_to DATE,
+    file_url TEXT,
+    file_name TEXT,
+    file_size INTEGER,
+    status TEXT DEFAULT 'active' CHECK(status IN ('active', 'expired', 'terminated')),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (applicant_id) REFERENCES applicants(id)
+);
+```
+
+#### Suggestions Table
+```sql
+CREATE TABLE suggestions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    applicant_id INTEGER NOT NULL,
+    category TEXT CHECK(category IN ('water-systems', 'natural-building', 'gardening', 'land-maintenance', 'housekeeping', 'community', 'education', 'sustainability')),
+    title TEXT NOT NULL,
+    description TEXT,
+    benefits TEXT,
+    implementation_notes TEXT,
+    priority TEXT DEFAULT 'normal' CHECK(priority IN ('low', 'normal', 'high', 'urgent')),
+    status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'approved', 'implemented', 'rejected')),
+    reviewed_by INTEGER,
+    reviewed_at TIMESTAMP,
+    review_notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (applicant_id) REFERENCES applicants(id),
+    FOREIGN KEY (reviewed_by) REFERENCES users(id)
+);
+```
+
+#### Project Proposals Table
+```sql
+CREATE TABLE project_proposals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    applicant_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    category TEXT CHECK(category IN ('water-systems', 'natural-building', 'gardening', 'land-maintenance', 'housekeeping', 'community', 'education', 'sustainability')),
+    importance TEXT,
+    requirements TEXT,
+    duration TEXT,
+    leadership_preference TEXT CHECK(leadership_preference IN ('yes', 'maybe', 'no')),
+    estimated_hours DECIMAL(5,2),
+    location TEXT,
+    status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'approved', 'rejected', 'converted')),
+    reviewed_by INTEGER,
+    reviewed_at TIMESTAMP,
+    review_notes TEXT,
+    converted_to_project_id INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (applicant_id) REFERENCES applicants(id),
+    FOREIGN KEY (reviewed_by) REFERENCES users(id),
+    FOREIGN KEY (converted_to_project_id) REFERENCES projects(id) ON DELETE SET NULL
+);
+```
+
+#### Learning Resources Table
+```sql
+CREATE TABLE learning_resources (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT,
+    category TEXT CHECK(category IN ('guides', 'contacts', 'maps', 'notion', 'other')),
+    resource_type TEXT CHECK(resource_type IN ('document', 'link', 'contact', 'map', 'notion-page')),
+    url TEXT,
+    file_url TEXT,
+    file_name TEXT,
+    file_size INTEGER,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_by INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(id)
+);
+```
+
+#### Enhanced Projects Table Fields
+```sql
+-- Add these fields to the existing projects table
+ALTER TABLE projects ADD COLUMN importance TEXT;
+ALTER TABLE projects ADD COLUMN requirements TEXT;
+ALTER TABLE projects ADD COLUMN duration TEXT;
+ALTER TABLE projects ADD COLUMN leadership_preference TEXT;
+ALTER TABLE projects ADD COLUMN proposed_by INTEGER;
+ALTER TABLE projects ADD COLUMN proposal_status TEXT DEFAULT 'pending' CHECK(proposal_status IN ('pending', 'approved', 'rejected'));
+ALTER TABLE projects ADD COLUMN review_notes TEXT;
+ALTER TABLE projects ADD COLUMN reviewed_by INTEGER;
+ALTER TABLE projects ADD COLUMN reviewed_at TIMESTAMP;
+ALTER TABLE projects ADD FOREIGN KEY (proposed_by) REFERENCES applicants(id);
+ALTER TABLE projects ADD FOREIGN KEY (reviewed_by) REFERENCES users(id);
+```
+
+#### Enhanced Tasks Table Fields
+```sql
+-- Add these fields to the existing tasks table
+ALTER TABLE tasks ADD COLUMN mood TEXT CHECK(mood IN ('great', 'good', 'okay', 'difficult'));
+ALTER TABLE tasks ADD COLUMN start_time TIME;
+ALTER TABLE tasks ADD COLUMN end_time TIME;
+ALTER TABLE tasks ADD COLUMN location TEXT;
+ALTER TABLE tasks ADD COLUMN notes TEXT;
+```
+
 ### Indexes for Performance
 ```sql
 -- Projects indexes
@@ -274,6 +412,218 @@ CREATE INDEX idx_tasks_due_date ON tasks(due_date);
 -- Participants indexes
 CREATE INDEX idx_project_participants_project ON project_participants(project_id);
 CREATE INDEX idx_event_attendees_event ON event_attendees(event_id);
+
+-- Activity Logs indexes
+CREATE INDEX idx_activity_logs_applicant ON activity_logs(applicant_id);
+CREATE INDEX idx_activity_logs_task ON activity_logs(task_id);
+CREATE INDEX idx_activity_logs_project ON activity_logs(project_id);
+CREATE INDEX idx_activity_logs_category ON activity_logs(category);
+CREATE INDEX idx_activity_logs_date ON activity_logs(created_at);
+
+-- Agreements indexes
+CREATE INDEX idx_agreements_applicant ON agreements(applicant_id);
+CREATE INDEX idx_agreements_status ON agreements(status);
+CREATE INDEX idx_agreements_type ON agreements(agreement_type);
+CREATE INDEX idx_agreements_validity ON agreements(valid_from, valid_to);
+
+-- Suggestions indexes
+CREATE INDEX idx_suggestions_applicant ON suggestions(applicant_id);
+CREATE INDEX idx_suggestions_category ON suggestions(category);
+CREATE INDEX idx_suggestions_status ON suggestions(status);
+CREATE INDEX idx_suggestions_priority ON suggestions(priority);
+CREATE INDEX idx_suggestions_reviewed_by ON suggestions(reviewed_by);
+
+-- Project Proposals indexes
+CREATE INDEX idx_project_proposals_applicant ON project_proposals(applicant_id);
+CREATE INDEX idx_project_proposals_category ON project_proposals(category);
+CREATE INDEX idx_project_proposals_status ON project_proposals(status);
+CREATE INDEX idx_project_proposals_reviewed_by ON project_proposals(reviewed_by);
+
+-- Learning Resources indexes
+CREATE INDEX idx_learning_resources_category ON learning_resources(category);
+CREATE INDEX idx_learning_resources_type ON learning_resources(resource_type);
+CREATE INDEX idx_learning_resources_active ON learning_resources(is_active);
+CREATE INDEX idx_learning_resources_created_by ON learning_resources(created_by);
+
+-- Enhanced Projects indexes
+CREATE INDEX idx_projects_proposed_by ON projects(proposed_by);
+CREATE INDEX idx_projects_proposal_status ON projects(proposal_status);
+CREATE INDEX idx_projects_reviewed_by ON projects(reviewed_by);
+
+-- Enhanced Tasks indexes
+CREATE INDEX idx_tasks_mood ON tasks(mood);
+CREATE INDEX idx_tasks_location ON tasks(location);
+```
+
+---
+
+## Dashboard Database Integration
+
+### WWOOFer Dashboard Database Support
+
+#### **Celebrate Your Impact (Activity Logging)**
+- **Primary Table**: `activity_logs`
+- **Supporting Tables**: `tasks`, `projects`, `applicants`
+- **Key Features**:
+  - Log work hours with mood tracking
+  - Link activities to specific tasks or projects
+  - Category-based organization
+  - Time tracking with start/end times
+
+#### **Join a Mission (Project Participation)**
+- **Primary Table**: `projects`
+- **Supporting Tables**: `project_participants`, `applicants`
+- **Key Features**:
+  - View available missions
+  - Join missions with status tracking
+  - Track participation hours
+
+#### **Dream Up a Mission (Project Proposals)**
+- **Primary Table**: `project_proposals`
+- **Supporting Tables**: `applicants`, `projects` (when converted)
+- **Key Features**:
+  - Submit mission proposals
+  - Leadership preference tracking
+  - Review and approval workflow
+
+#### **My Adventure Pact (Agreements)**
+- **Primary Table**: `agreements`
+- **Supporting Tables**: `applicants`
+- **Key Features**:
+  - Upload and manage PDF agreements
+  - Track agreement validity periods
+  - Status management (active/expired/terminated)
+
+#### **Spark Ideas (Suggestions)**
+- **Primary Table**: `suggestions`
+- **Supporting Tables**: `applicants`, `users` (reviewers)
+- **Key Features**:
+  - Submit community improvement ideas
+  - Review and approval workflow
+  - Priority and status tracking
+
+#### **Grow & Explore (Learning Resources)**
+- **Primary Table**: `learning_resources`
+- **Supporting Tables**: `users` (creators)
+- **Key Features**:
+  - Access guides, contacts, maps
+  - Notion hub integration
+  - Resource categorization
+
+### Stewart Dashboard Database Support
+
+#### **Active Missions (Project Management)**
+- **Primary Tables**: `projects`, `tasks`
+- **Supporting Tables**: `project_participants`, `applicants`
+- **Key Features**:
+  - View and manage all projects
+  - Assign tasks to WWOOFers
+  - Track project progress and completion
+
+#### **Dream Projects (Proposal Review)**
+- **Primary Tables**: `project_proposals`, `suggestions`
+- **Supporting Tables**: `applicants`, `users`
+- **Key Features**:
+  - Review WWOOFer proposals
+  - Approve/reject suggestions
+  - Convert proposals to projects
+
+#### **Resource Flow (Expense Tracking)**
+- **Primary Table**: `expenses`
+- **Supporting Tables**: `users` (approvers)
+- **Key Features**:
+  - Track project expenses
+  - Categorize spending
+  - Approval workflow
+
+#### **Team Coordination**
+- **Primary Tables**: `applicants`, `project_participants`
+- **Supporting Tables**: `activity_logs`, `tasks`
+- **Key Features**:
+  - View WWOOFer profiles and skills
+  - Track participation and contributions
+  - Monitor work hours and mood
+
+### Admin Dashboard Database Support
+
+#### **System Overview**
+- **Primary Tables**: All tables for comprehensive view
+- **Key Features**:
+  - Financial overview (expenses)
+  - User management (applicants, users)
+  - Project analytics (projects, tasks, activity_logs)
+
+#### **Financial Management**
+- **Primary Table**: `expenses`
+- **Supporting Tables**: `users`, `projects`
+- **Key Features**:
+  - Expense tracking and categorization
+  - Budget management
+  - Financial reporting
+
+#### **User Management**
+- **Primary Tables**: `applicants`, `users`
+- **Supporting Tables**: `agreements`, `activity_logs`
+- **Key Features**:
+  - WWOOFer application review
+  - Agreement management
+  - Performance tracking
+
+#### **Content Management**
+- **Primary Table**: `learning_resources`
+- **Supporting Tables**: `users`
+- **Key Features**:
+  - Manage learning resources
+  - Update guides and contacts
+  - Content approval workflow
+
+### Cross-Dashboard Data Flow
+
+#### **Project Lifecycle**
+1. **WWOOFer**: Submits proposal via `project_proposals`
+2. **Stewart**: Reviews and converts to `projects`
+3. **Admin**: Monitors progress and approves expenses
+4. **WWOOFer**: Joins project via `project_participants`
+5. **WWOOFer**: Logs activities via `activity_logs`
+6. **Stewart**: Tracks progress and assigns tasks
+7. **Admin**: Reviews completion and financial impact
+
+#### **Suggestion Workflow**
+1. **WWOOFer**: Submits suggestion via `suggestions`
+2. **Stewart**: Reviews and approves/rejects
+3. **Admin**: Monitors community feedback and implementation
+
+#### **Agreement Management**
+1. **WWOOFer**: Uploads agreement via `agreements`
+2. **Admin**: Reviews and manages validity
+3. **Stewart**: References for project assignments
+
+#### **Activity Tracking**
+1. **WWOOFer**: Logs activities via `activity_logs`
+2. **Stewart**: Monitors team performance and mood
+3. **Admin**: Analyzes overall community engagement
+
+### Database Relationships Summary
+
+```
+applicants (WWOOFers)
+├── activity_logs (work tracking)
+├── agreements (contracts)
+├── suggestions (ideas)
+├── project_proposals (missions)
+└── project_participants (participation)
+
+projects (missions)
+├── tasks (work items)
+├── project_participants (team)
+├── expenses (costs)
+└── activity_logs (contributions)
+
+users (admins/stewards)
+├── expenses (approvals)
+├── suggestions (reviews)
+├── project_proposals (reviews)
+└── learning_resources (content)
 ```
 
 ---
