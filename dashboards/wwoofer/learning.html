@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning & Resources - WWOOFer Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        .resource-card {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .resource-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .resource-icon {
+            font-size: var(--text-3xl);
+            margin-bottom: var(--space-4);
+        }
+        .resource-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-3);
+        }
+        .resource-desc {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: var(--space-4);
+        }
+        .contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .contact-info h4 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: var(--text-base);
+        }
+        .contact-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+        .map-image {
+            width: 100%;
+            height: 300px;
+            background: var(--background-secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            border: 2px dashed var(--border-color);
+            margin-bottom: var(--space-4);
+        }
+        .btn-primary {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background: var(--primary-green-dark);
+        }
+        .btn-secondary {
+            background: var(--secondary-earth);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-secondary:hover {
+            background: var(--secondary-earth-dark);
+        }
+        .sidebar {
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            width: 100%;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .nav-icon {
+            font-size: 1.2em;
+        }
+        .mobile-menu-toggle {
+            display: none;
+        }
+        .mobile-nav-overlay {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                display: none !important;
+            }
+            .main-content {
+                width: 100%;
+            }
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 48px;
+                background: #fff;
+                border: none;
+                z-index: 1200;
+                font-size: 2rem;
+                text-align: center;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            }
+            .page-header {
+                padding: 56px 1rem 1.5rem 1rem;
+            }
+            .content-area {
+                padding: var(--space-4);
+            }
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            .mobile-nav-overlay {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                height: calc(100vh - 48px);
+                background: rgba(0,0,0,0.25);
+                z-index: 1300;
+            }
+            .mobile-nav {
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                background: #fff;
+                box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+                z-index: 1400;
+                padding: 1.5rem 0 0.5rem 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .mobile-nav .nav-link {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+                border-radius: 0;
+                border: none;
+                background: none;
+                color: var(--text-primary);
+                text-align: left;
+                font-weight: 500;
+            }
+            .mobile-nav .nav-link.active, .mobile-nav .nav-link:hover {
+                background: var(--primary-green);
+                color: var(--neutral-white);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar (desktop only) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">WWOOFer Dashboard</p>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="activities.html" class="nav-link">
+                        <span class="nav-icon">⏱️</span>
+                        Log Hours
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Join Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="propose.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Propose Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="agreements.html" class="nav-link">
+                        <span class="nav-icon">📄</span>
+                        My Agreements
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="suggestions.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="learning.html" class="nav-link active">
+                        <span class="nav-icon">📚</span>
+                        Learning & Resources
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        <!-- Mobile menu toggle (mobile only) -->
+        <button class="mobile-menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+        <!-- Mobile nav overlay and menu (mobile only) -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileMenu()"></div>
+        <nav class="mobile-nav" id="mobileNav" style="display:none;">
+            <a href="index.html" class="nav-link"><span class="nav-icon">🏠</span>Dashboard</a>
+            <a href="activities.html" class="nav-link"><span class="nav-icon">⏱️</span>Log Hours</a>
+            <a href="projects.html" class="nav-link"><span class="nav-icon">📋</span>Join Project</a>
+            <a href="propose.html" class="nav-link"><span class="nav-icon">📝</span>Propose Project</a>
+            <a href="agreements.html" class="nav-link"><span class="nav-icon">📄</span>My Agreements</a>
+            <a href="suggestions.html" class="nav-link"><span class="nav-icon">💡</span>Ideas & Suggestions</a>
+            <a href="learning.html" class="nav-link active"><span class="nav-icon">📚</span>Learning & Resources</a>
+            <div class="user-section">
+                <div class="user-avatar">JS</div>
+                <div class="user-info">
+                    <h4>João Santos</h4>
+                    <p>WWOOFer • Since Feb 2024</p>
+                </div>
+                <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+            </div>
+           
+        </nav>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Learning & Resources</h1>
+                <p class="page-subtitle">Access contacts, maps, and resources to help you thrive at Foz da Cova</p>
+            </div>
+            <!-- Content Area -->
+            <div class="content-area">
+                <div class="resources-grid">
+                                        <!-- Notion Hub -->
+                                        <div class="resource-card">
+                                            <div class="resource-icon">📚</div>
+                                            <div class="resource-title">Notion (Main Hub)</div>
+                                            <div class="resource-desc">Access our comprehensive knowledge base with guides, procedures, and community resources.</div>
+                                            <a href="https://notion.so/fozdacova" target="_blank" class="btn-primary">Open Notion Hub</a>
+                                        </div>
+                                     <!-- Invite Friends -->
+                    <div class="resource-card">
+                        <div class="resource-icon">🤝</div>
+                        <div class="resource-title">Invite Your Friends!</div>
+                        <div class="resource-desc">Share the Foz da Cova experience with people you know who might be interested in joining our community.</div>
+                        <a href="mailto:?subject=Join me at Foz da Cova&body=Hi! I'm volunteering at Foz da Cova and thought you might be interested in joining too. Check it out: https://fozdacova.pt" class="btn-secondary">Send Invitation</a>
+                    </div>
+                    <!-- Main Contacts -->
+                    <div class="resource-card">
+                        <div class="resource-icon">👥</div>
+                        <div class="resource-title">Main Contacts</div>
+                        <div class="resource-desc">Get in touch with the key people at Foz da Cova</div>
+                        <ul class="contact-list">
+                            <li class="contact-item">
+                                <div class="contact-icon">M</div>
+                                <div class="contact-info">
+                                    <h4>Maria Silva</h4>
+                                    <p>Project Coordinator • maria@fozdacova.pt</p>
+                                </div>
+                            </li>
+                            <li class="contact-item">
+                                <div class="contact-icon">J</div>
+                                <div class="contact-info">
+                                    <h4>João Costa</h4>
+                                    <p>Land Manager • joao@fozdacova.pt</p>
+                                </div>
+                            </li>
+                            <li class="contact-item">
+                                <div class="contact-icon">A</div>
+                                <div class="contact-info">
+                                    <h4>Ana Santos</h4>
+                                    <p>Community Coordinator • ana@fozdacova.pt</p>
+                                </div>
+                            </li>
+                            <li class="contact-item">
+                                <div class="contact-icon">📞</div>
+                                <div class="contact-info">
+                                    <h4>Emergency Contact</h4>
+                                    <p>+351 123 456 789</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Map -->
+                    <div class="resource-card">
+                        <div class="resource-icon">🗺️</div>
+                        <div class="resource-title">Map</div>
+                        <div class="resource-desc">Explore the layout and key locations of Foz da Cova</div>
+                        <div class="map-image">
+                            <div style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: var(--space-2);">🗺️</div>
+                                <div>Map of Foz da Cova</div>
+                                <div style="font-size: var(--text-sm); margin-top: var(--space-2);">
+                                    Interactive map coming soon
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn-primary">View Full Map</a>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../shared/js/main.js"></script>
+    <script>
+        // Mobile menu logic
+        function toggleMobileMenu() {
+            var nav = document.getElementById('mobileNav');
+            var overlay = document.getElementById('mobileNavOverlay');
+            if (nav.style.display === 'block') {
+                nav.style.display = 'none';
+                overlay.style.display = 'none';
+            } else {
+                nav.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+        }
+        function closeMobileMenu() {
+            document.getElementById('mobileNav').style.display = 'none';
+            document.getElementById('mobileNavOverlay').style.display = 'none';
+        }
+        // Close menu when clicking a link
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.querySelectorAll('.mobile-nav .nav-link');
+            links.forEach(function(link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propose Project - WWOOFer Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .propose-form {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-8);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-8);
+        }
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: var(--space-3);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: var(--text-base);
+            transition: border-color 0.2s ease;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .btn-primary {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-primary:hover {
+            background: var(--primary-green-dark);
+        }
+        .inspiration-section {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .inspiration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-4);
+        }
+        .inspiration-card {
+            background: var(--background-secondary);
+            border-radius: 8px;
+            padding: var(--space-4);
+            border: 1px solid var(--border-color);
+        }
+        .inspiration-icon {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-2);
+        }
+        .inspiration-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        .inspiration-desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        .sidebar {
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            width: 100%;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .nav-icon {
+            font-size: 1.2em;
+        }
+        .mobile-menu-toggle {
+            display: none;
+        }
+        .mobile-nav-overlay {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                display: none !important;
+            }
+            .main-content {
+                width: 100%;
+            }
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 48px;
+                background: #fff;
+                border: none;
+                z-index: 1200;
+                font-size: 2rem;
+                text-align: center;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            }
+            .page-header {
+                padding: 56px 1rem 1.5rem 1rem;
+            }
+            .content-area {
+                padding: var(--space-4);
+            }
+            .inspiration-grid {
+                grid-template-columns: 1fr;
+            }
+            .mobile-nav-overlay {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                height: calc(100vh - 48px);
+                background: rgba(0,0,0,0.25);
+                z-index: 1300;
+            }
+            .mobile-nav {
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                background: #fff;
+                box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+                z-index: 1400;
+                padding: 1.5rem 0 0.5rem 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .mobile-nav .nav-link {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+                border-radius: 0;
+                border: none;
+                background: none;
+                color: var(--text-primary);
+                text-align: left;
+                font-weight: 500;
+            }
+            .mobile-nav .nav-link.active, .mobile-nav .nav-link:hover {
+                background: var(--primary-green);
+                color: var(--neutral-white);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar (desktop only) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">WWOOFer Dashboard</p>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="activities.html" class="nav-link">
+                        <span class="nav-icon">⏱️</span>
+                        Log Hours
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Join Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="propose.html" class="nav-link active">
+                        <span class="nav-icon">📝</span>
+                        Propose Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="agreements.html" class="nav-link">
+                        <span class="nav-icon">📄</span>
+                        My Agreements
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="suggestions.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="learning.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Learning & Resources
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        <!-- Mobile menu toggle (mobile only) -->
+        <button class="mobile-menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+        <!-- Mobile nav overlay and menu (mobile only) -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileMenu()"></div>
+        <nav class="mobile-nav" id="mobileNav" style="display:none;">
+            <a href="index.html" class="nav-link"><span class="nav-icon">🏠</span>Dashboard</a>
+            <a href="activities.html" class="nav-link"><span class="nav-icon">⏱️</span>Log Hours</a>
+            <a href="projects.html" class="nav-link"><span class="nav-icon">📋</span>Join Project</a>
+            <a href="propose.html" class="nav-link active"><span class="nav-icon">📝</span>Propose Project</a>
+            <a href="agreements.html" class="nav-link"><span class="nav-icon">📄</span>My Agreements</a>
+            <a href="suggestions.html" class="nav-link"><span class="nav-icon">💡</span>Ideas & Suggestions</a>
+            <a href="learning.html" class="nav-link"><span class="nav-icon">📚</span>Learning & Resources</a>
+            <div class="user-section">
+                <div class="user-avatar">JS</div>
+                <div class="user-info">
+                    <h4>João Santos</h4>
+                    <p>WWOOFer • Since Feb 2024</p>
+                </div>
+                <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+            </div>
+        </nav>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Propose Project</h1>
+                <p class="page-subtitle">Share your ideas and suggest new projects for the community</p>
+            </div>
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Propose Form -->
+                <div class="propose-form">
+                    <h3>Share Your Project Idea</h3>
+                    <form id="proposeForm">
+                        <div class="form-group">
+                            <label class="form-label">Project Name</label>
+                            <input type="text" class="form-input" id="projectName" placeholder="e.g., Solar Panel Installation" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="category" required>
+                                <option value="">Select a category...</option>
+                                <option value="water-systems">💧 Water Systems</option>
+                                <option value="natural-building">🏗️ Natural Building</option>
+                                <option value="gardening">🌱 Gardening & Plant Care</option>
+                                <option value="land-maintenance">✂️ Land Maintenance</option>
+                                <option value="housekeeping">🏠 Housekeeping & Organization</option>
+                                <option value="community">👥 Community & Social</option>
+                                <option value="education">📚 Education & Learning</option>
+                                <option value="sustainability">🌿 Sustainability & Permaculture</option>
+                                <option value="other">📝 Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Why is this project important?</label>
+                            <textarea class="form-textarea" id="importance" placeholder="Explain why this project would benefit the community and the land..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">What skills or resources are needed?</label>
+                            <textarea class="form-textarea" id="requirements" placeholder="List the skills, tools, materials, or people needed for this project..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">How long do you think it would take?</label>
+                            <select class="form-select" id="duration" required>
+                                <option value="">Select duration...</option>
+                                <option value="1-3 days">1-3 days</option>
+                                <option value="1 week">1 week</option>
+                                <option value="2-4 weeks">2-4 weeks</option>
+                                <option value="1-3 months">1-3 months</option>
+                                <option value="ongoing">Ongoing project</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Would you like to lead this project?</label>
+                            <select class="form-select" id="leadership" required>
+                                <option value="">Select your preference...</option>
+                                <option value="yes">Yes, I'd love to lead it!</option>
+                                <option value="maybe">Maybe, with some support</option>
+                                <option value="no">No, just suggesting the idea</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Submit Proposal</button>
+                    </form>
+                </div>
+                <!-- Inspiration Section -->
+                <div class="inspiration-section">
+                    <h3>💡 Need Inspiration?</h3>
+                    <p>Here are some project ideas that could benefit our community:</p>
+                    <div class="inspiration-grid">
+                        <div class="inspiration-card">
+                            <div class="inspiration-icon">💧</div>
+                            <div class="inspiration-title">Water System Improvements</div>
+                            <div class="inspiration-desc">Additional water containers, irrigation improvements, or rainwater harvesting systems.</div>
+                        </div>
+                        <div class="inspiration-card">
+                            <div class="inspiration-icon">🏠</div>
+                            <div class="inspiration-title">Natural Building Projects</div>
+                            <div class="inspiration-desc">Cob structures, straw bale buildings, or natural material workshops.</div>
+                        </div>
+                        <div class="inspiration-card">
+                            <div class="inspiration-icon">🌿</div>
+                            <div class="inspiration-title">Garden & Plant Projects</div>
+                            <div class="inspiration-desc">Medicinal herb gardens, permaculture designs, or plant care systems.</div>
+                        </div>
+                        <div class="inspiration-card">
+                            <div class="inspiration-icon">🏠</div>
+                            <div class="inspiration-title">House Organization</div>
+                            <div class="inspiration-desc">Storage solutions, cleaning systems, or space optimization for the three houses.</div>
+                        </div>
+                        <div class="inspiration-card">
+                            <div class="inspiration-icon">👥</div>
+                            <div class="inspiration-title">Community Activities</div>
+                            <div class="inspiration-desc">Skill-sharing workshops, community events, or social activities.</div>
+                        </div>
+                        <div class="inspiration-card">
+                            <div class="inspiration-icon">🌱</div>
+                            <div class="inspiration-title">Sustainability Projects</div>
+                            <div class="inspiration-desc">Composting systems, waste reduction, or renewable energy solutions.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../shared/js/main.js"></script>
+    <script>
+        // Mobile menu logic
+        function toggleMobileMenu() {
+            var nav = document.getElementById('mobileNav');
+            var overlay = document.getElementById('mobileNavOverlay');
+            if (nav.style.display === 'block') {
+                nav.style.display = 'none';
+                overlay.style.display = 'none';
+            } else {
+                nav.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+        }
+        function closeMobileMenu() {
+            document.getElementById('mobileNav').style.display = 'none';
+            document.getElementById('mobileNavOverlay').style.display = 'none';
+        }
+        // Form submission
+        document.getElementById('proposeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the data to your backend
+            alert('Project proposal submitted! 🎉 We\'ll review it and get back to you soon.');
+            this.reset();
+        });
+        // Close menu when clicking a link
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.querySelectorAll('.mobile-nav .nav-link');
+            links.forEach(function(link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+        });
+    </script>
+</body>
+</html> 

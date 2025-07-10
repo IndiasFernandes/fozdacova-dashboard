@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Hours - WWOOFer Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .log-form {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-8);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-8);
+        }
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: var(--space-3);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: var(--text-base);
+            transition: border-color 0.2s ease;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .time-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        .btn-primary {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-primary:hover {
+            background: var(--primary-green-dark);
+        }
+        .recent-activities {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-info h4 {
+            margin: 0 0 var(--space-1) 0;
+            color: var(--text-primary);
+        }
+        .activity-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+        .activity-time {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+        .sidebar {
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            width: 100%;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .nav-icon {
+            font-size: 1.2em;
+        }
+        .mobile-menu-toggle {
+            display: none;
+        }
+        .mobile-nav-overlay {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                display: none !important;
+            }
+            .main-content {
+                width: 100%;
+            }
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 48px;
+                background: #fff;
+                border: none;
+                z-index: 1200;
+                font-size: 2rem;
+                text-align: center;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            }
+            .page-header {
+                padding: 56px 1rem 1.5rem 1rem;
+            }
+            .content-area {
+                padding: var(--space-4);
+            }
+            .time-inputs {
+                grid-template-columns: 1fr;
+            }
+            .mobile-nav-overlay {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                height: calc(100vh - 48px);
+                background: rgba(0,0,0,0.25);
+                z-index: 1300;
+            }
+            .mobile-nav {
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                background: #fff;
+                box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+                z-index: 1400;
+                padding: 1.5rem 0 0.5rem 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .mobile-nav .nav-link {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+                border-radius: 0;
+                border: none;
+                background: none;
+                color: var(--text-primary);
+                text-align: left;
+                font-weight: 500;
+            }
+            .mobile-nav .nav-link.active, .mobile-nav .nav-link:hover {
+                background: var(--primary-green);
+                color: var(--neutral-white);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar (desktop only) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">WWOOFer Dashboard</p>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="activities.html" class="nav-link active">
+                        <span class="nav-icon">⏱️</span>
+                        Log Hours
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Join Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="propose.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Propose Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="agreements.html" class="nav-link">
+                        <span class="nav-icon">📄</span>
+                        My Agreements
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="suggestions.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="learning.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Learning & Resources
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        <!-- Mobile menu toggle (mobile only) -->
+        <button class="mobile-menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+        <!-- Mobile nav overlay and menu (mobile only) -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileMenu()"></div>
+        <nav class="mobile-nav" id="mobileNav" style="display:none;">
+            <a href="index.html" class="nav-link"><span class="nav-icon">🏠</span>Dashboard</a>
+            <a href="activities.html" class="nav-link active"><span class="nav-icon">⏱️</span>Log Hours</a>
+            <a href="projects.html" class="nav-link"><span class="nav-icon">📋</span>Join Project</a>
+            <a href="propose.html" class="nav-link"><span class="nav-icon">📝</span>Propose Project</a>
+            <a href="agreements.html" class="nav-link"><span class="nav-icon">📄</span>My Agreements</a>
+            <a href="suggestions.html" class="nav-link"><span class="nav-icon">💡</span>Ideas & Suggestions</a>
+            <a href="learning.html" class="nav-link"><span class="nav-icon">📚</span>Learning & Resources</a>
+            <div class="user-section">
+                <div class="user-avatar">JS</div>
+                <div class="user-info">
+                    <h4>João Santos</h4>
+                    <p>WWOOFer • Since Feb 2024</p>
+                </div>
+                <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+            </div>
+        </nav>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Log Hours</h1>
+                <p class="page-subtitle">Record your work activities and track your contributions</p>
+            </div>
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Log Hours Form -->
+                <div class="log-form">
+                    <h3>Log New Activity</h3>
+                    <form id="logForm">
+                        <div class="form-group">
+                            <label class="form-label">What did you work on?</label>
+                            <select class="form-select" id="project" required>
+                                <option value="">Select a project...</option>
+                                <option value="water-system">💧 Water System Setup</option>
+                                <option value="bed-linen">🛏️ Bed Linen Organization</option>
+                                <option value="plant-care">🌱 Plant Care & Watering</option>
+                                <option value="land-trimming">✂️ Land Trimming & Maintenance</option>
+                                <option value="natural-building">🏗️ Natural Building</option>
+                                <option value="garden-maintenance">🌿 Garden Maintenance</option>
+                                <option value="housekeeping">🏠 Housekeeping & Cleaning</option>
+                                <option value="cooking">👨‍🍳 Cooking & Meal Prep</option>
+                                <option value="other">📝 Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">When did you work?</label>
+                            <div class="time-inputs">
+                                <div>
+                                    <label class="form-label">Start Time</label>
+                                    <input type="time" class="form-input" id="startTime" required>
+                                </div>
+                                <div>
+                                    <label class="form-label">End Time</label>
+                                    <input type="time" class="form-input" id="endTime" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">What did you accomplish?</label>
+                            <textarea class="form-textarea" id="description" placeholder="Describe what you worked on, what you accomplished, and any challenges you faced..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">How did it feel?</label>
+                            <select class="form-select" id="mood">
+                                <option value="">How was your experience?</option>
+                                <option value="great">😊 Great - Really enjoyed it!</option>
+                                <option value="good">🙂 Good - Productive day</option>
+                                <option value="okay">😐 Okay - Some challenges</option>
+                                <option value="difficult">😅 Difficult - Need support</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Log Activity</button>
+                    </form>
+                </div>
+                <!-- Recent Activities -->
+                <div class="recent-activities">
+                    <h3>Recent Activities</h3>
+                    <div class="activity-item">
+                        <div class="activity-info">
+                            <h4>💧 Water System Setup</h4>
+                            <p>Installed new water container and connected piping. Great progress on the water system improvement!</p>
+                        </div>
+                        <div class="activity-time">4h 30m</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-info">
+                            <h4>🛏️ Bed Linen Organization</h4>
+                            <p>Sorted and tagged bed linens for Boavista house. Organized storage system for easy access.</p>
+                        </div>
+                        <div class="activity-time">2h 15m</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-info">
+                            <h4>🌱 Plant Care & Watering</h4>
+                            <p>Watered specific plants that need attention every 2-3 days. Learned about different plant care needs.</p>
+                        </div>
+                        <div class="activity-time">1h 45m</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../shared/js/main.js"></script>
+    <script>
+        // Mobile menu logic
+        function toggleMobileMenu() {
+            var nav = document.getElementById('mobileNav');
+            var overlay = document.getElementById('mobileNavOverlay');
+            if (nav.style.display === 'block') {
+                nav.style.display = 'none';
+                overlay.style.display = 'none';
+            } else {
+                nav.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+        }
+        function closeMobileMenu() {
+            document.getElementById('mobileNav').style.display = 'none';
+            document.getElementById('mobileNavOverlay').style.display = 'none';
+        }
+        // Form submission
+        document.getElementById('logForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the data to your backend
+            alert('Activity logged successfully! 🎉');
+            this.reset();
+        });
+        // Close menu when clicking a link
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.querySelectorAll('.mobile-nav .nav-link');
+            links.forEach(function(link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+        });
+    </script>
+</body>
+</html> 

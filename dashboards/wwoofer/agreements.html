@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Agreements - WWOOFer Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .upload-section {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-8);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-8);
+        }
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: var(--space-3);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: var(--text-base);
+            transition: border-color 0.2s ease;
+        }
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+        .file-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: var(--space-8);
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        .file-upload:hover {
+            border-color: var(--primary-green);
+        }
+        .file-upload.dragover {
+            border-color: var(--primary-green);
+            background: rgba(45, 90, 39, 0.05);
+        }
+        .btn-primary {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-primary:hover {
+            background: var(--primary-green-dark);
+        }
+        .btn-danger {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .agreements-table {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th {
+            background: var(--background-secondary);
+            padding: var(--space-4);
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+        }
+        .table td {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        .table tr:hover {
+            background: var(--background-secondary);
+        }
+        .agreement-name {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+        .agreement-dates {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .agreement-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+        .sidebar {
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            width: 100%;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .nav-icon {
+            font-size: 1.2em;
+        }
+        .mobile-menu-toggle {
+            display: none;
+        }
+        .mobile-nav-overlay {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                display: none !important;
+            }
+            .main-content {
+                width: 100%;
+            }
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 48px;
+                background: #fff;
+                border: none;
+                z-index: 1200;
+                font-size: 2rem;
+                text-align: center;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            }
+            .page-header {
+                padding: 56px 1rem 1.5rem 1rem;
+            }
+            .content-area {
+                padding: var(--space-4);
+            }
+            .table {
+                font-size: var(--text-sm);
+            }
+            .table th, .table td {
+                padding: var(--space-2);
+            }
+            .mobile-nav-overlay {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                height: calc(100vh - 48px);
+                background: rgba(0,0,0,0.25);
+                z-index: 1300;
+            }
+            .mobile-nav {
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                background: #fff;
+                box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+                z-index: 1400;
+                padding: 1.5rem 0 0.5rem 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .mobile-nav .nav-link {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+                border-radius: 0;
+                border: none;
+                background: none;
+                color: var(--text-primary);
+                text-align: left;
+                font-weight: 500;
+            }
+            .mobile-nav .nav-link.active, .mobile-nav .nav-link:hover {
+                background: var(--primary-green);
+                color: var(--neutral-white);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar (desktop only) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">WWOOFer Dashboard</p>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="activities.html" class="nav-link">
+                        <span class="nav-icon">⏱️</span>
+                        Log Hours
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Join Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="propose.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Propose Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="agreements.html" class="nav-link active">
+                        <span class="nav-icon">📄</span>
+                        My Agreements
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="suggestions.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="learning.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Learning & Resources
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        <!-- Mobile menu toggle (mobile only) -->
+        <button class="mobile-menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+        <!-- Mobile nav overlay and menu (mobile only) -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileMenu()"></div>
+        <nav class="mobile-nav" id="mobileNav" style="display:none;">
+            <a href="index.html" class="nav-link"><span class="nav-icon">🏠</span>Dashboard</a>
+            <a href="activities.html" class="nav-link"><span class="nav-icon">⏱️</span>Log Hours</a>
+            <a href="projects.html" class="nav-link"><span class="nav-icon">📋</span>Join Project</a>
+            <a href="propose.html" class="nav-link"><span class="nav-icon">📝</span>Propose Project</a>
+            <a href="agreements.html" class="nav-link active"><span class="nav-icon">📄</span>My Agreements</a>
+            <a href="suggestions.html" class="nav-link"><span class="nav-icon">💡</span>Ideas & Suggestions</a>
+            <a href="learning.html" class="nav-link"><span class="nav-icon">📚</span>Learning & Resources</a>
+            <div class="user-section">
+                <div class="user-avatar">JS</div>
+                <div class="user-info">
+                    <h4>João Santos</h4>
+                    <p>WWOOFer • Since Feb 2024</p>
+                </div>
+                <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+            </div>
+        </nav>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">My Agreements</h1>
+                <p class="page-subtitle">Upload and manage your agreements with Foz da Cova</p>
+            </div>
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Upload Section -->
+                <div class="upload-section">
+                    <h3>Upload New Agreement</h3>
+                    <form id="uploadForm">
+                        <div class="form-group">
+                            <label class="form-label">Agreement Name</label>
+                            <input type="text" class="form-input" id="agreementName" placeholder="e.g., WWOOF Agreement - João Santos" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Agreement Type</label>
+                            <select class="form-select" id="agreementType" required>
+                                <option value="">Select type...</option>
+                                <option value="wwoof">WWOOF Agreement</option>
+                                <option value="volunteer">Volunteer Agreement</option>
+                                <option value="internship">Internship Agreement</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Valid From</label>
+                            <input type="date" class="form-input" id="validFrom" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Valid To</label>
+                            <input type="date" class="form-input" id="validTo" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Upload PDF File</label>
+                            <div class="file-upload" id="fileUpload">
+                                <div>📄</div>
+                                <div style="margin-top: var(--space-2);">
+                                    <strong>Click to upload</strong> or drag and drop
+                                </div>
+                                <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-1);">
+                                    PDF files only, max 10MB
+                                </div>
+                                <input type="file" id="fileInput" accept=".pdf" style="display: none;" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Upload Agreement</button>
+                    </form>
+                </div>
+                <!-- Agreements Table -->
+                <div class="agreements-table">
+                    <h3>Your Agreements</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Valid From</th>
+                                <th>Valid To</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="agreementsTableBody">
+                            <tr>
+                                <td>
+                                    <div class="agreement-name">WWOOF Agreement - João Santos</div>
+                                    <div class="agreement-dates">Uploaded: Feb 15, 2024</div>
+                                </td>
+                                <td>WWOOF Agreement</td>
+                                <td>Feb 15, 2024</td>
+                                <td>May 15, 2024</td>
+                                <td><span style="color: var(--accent-success);">✓ Active</span></td>
+                                <td>
+                                    <div class="agreement-actions">
+                                        <a href="#" class="btn-primary" style="padding: var(--space-1) var(--space-2); font-size: var(--text-sm);">View</a>
+                                        <button class="btn-danger" onclick="deleteAgreement(this)">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="agreement-name">Volunteer Agreement - João Santos</div>
+                                    <div class="agreement-dates">Uploaded: Jan 20, 2024</div>
+                                </td>
+                                <td>Volunteer Agreement</td>
+                                <td>Jan 20, 2024</td>
+                                <td>Apr 20, 2024</td>
+                                <td><span style="color: var(--accent-success);">✓ Active</span></td>
+                                <td>
+                                    <div class="agreement-actions">
+                                        <a href="#" class="btn-primary" style="padding: var(--space-1) var(--space-2); font-size: var(--text-sm);">View</a>
+                                        <button class="btn-danger" onclick="deleteAgreement(this)">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../shared/js/main.js"></script>
+    <script>
+        // Mobile menu logic
+        function toggleMobileMenu() {
+            var nav = document.getElementById('mobileNav');
+            var overlay = document.getElementById('mobileNavOverlay');
+            if (nav.style.display === 'block') {
+                nav.style.display = 'none';
+                overlay.style.display = 'none';
+            } else {
+                nav.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+        }
+        function closeMobileMenu() {
+            document.getElementById('mobileNav').style.display = 'none';
+            document.getElementById('mobileNavOverlay').style.display = 'none';
+        }
+        // File upload handling
+        const fileUpload = document.getElementById('fileUpload');
+        const fileInput = document.getElementById('fileInput');
+        
+        fileUpload.addEventListener('click', () => fileInput.click());
+        
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('dragover');
+        });
+        
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('dragover');
+        });
+        
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('dragover');
+            fileInput.files = e.dataTransfer.files;
+            updateFileName();
+        });
+        
+        fileInput.addEventListener('change', updateFileName);
+        
+        function updateFileName() {
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                fileUpload.innerHTML = `
+                    <div>📄</div>
+                    <div style="margin-top: var(--space-2);">
+                        <strong>${fileName}</strong>
+                    </div>
+                    <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-1);">
+                        Ready to upload
+                    </div>
+                `;
+            }
+        }
+        // Form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the data to your backend
+            alert('Agreement uploaded successfully! 📄');
+            this.reset();
+            fileUpload.innerHTML = `
+                <div>📄</div>
+                <div style="margin-top: var(--space-2);">
+                    <strong>Click to upload</strong> or drag and drop
+                </div>
+                <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-1);">
+                    PDF files only, max 10MB
+                </div>
+            `;
+        });
+        // Delete agreement function
+        function deleteAgreement(button) {
+            if (confirm('Are you sure you want to delete this agreement? This action cannot be undone.')) {
+                const row = button.closest('tr');
+                row.remove();
+                alert('Agreement deleted successfully! 🗑️');
+            }
+        }
+        // Close menu when clicking a link
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.querySelectorAll('.mobile-nav .nav-link');
+            links.forEach(function(link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+        });
+    </script>
+</body>
+</html> 

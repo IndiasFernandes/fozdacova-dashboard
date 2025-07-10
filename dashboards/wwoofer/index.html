@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWOOFer Dashboard - Foz da Cova</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Use Stewart dashboard styles for consistency */
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-6) var(--space-8) var(--space-2) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dashboard-title {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dashboard-title h1 {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .dashboard-title p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--background-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neutral-white);
+            font-weight: 600;
+            font-size: var(--text-base);
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-info h4 {
+            margin: 0;
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+        }
+
+        .user-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: var(--text-xs);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: var(--space-6);
+            margin: var(--space-6) 0;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .dashboard-square {
+            background: var(--background-primary);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: var(--space-6) var(--space-4);
+            min-width: 120px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .dashboard-square:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-label {
+            font-size: var(--text-base);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-change {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .quick-action-icon {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-2);
+        }
+
+        .quick-action-title {
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+
+        .quick-action-desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            width: 100%;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+
+        .nav-icon {
+            font-size: 1.2em;
+        }
+
+        /* Hamburger button for mobile */
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        /* Mobile nav overlay */
+        .mobile-nav-overlay {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-4);
+                padding: var(--space-4);
+            }
+
+            .dashboard-title {
+                align-items: flex-start;
+            }
+
+            .user-section {
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                display: none !important;
+            }
+
+            .main-content {
+                width: 100%;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 48px;
+                background: #fff;
+                border: none;
+                z-index: 1200;
+                font-size: 2rem;
+                text-align: center;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 56px 1rem 1.5rem 1rem;
+            }
+
+            .dashboard-title {
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .user-section {
+                display: none;
+            }
+
+            .mobile-nav-overlay {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                height: calc(100vh - 48px);
+                background: rgba(0, 0, 0, 0.25);
+                z-index: 1300;
+            }
+
+            .mobile-nav {
+                position: fixed;
+                top: 48px;
+                left: 0;
+                width: 100vw;
+                background: #fff;
+                box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10);
+                z-index: 1400;
+                padding: 1.5rem 0 0.5rem 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .mobile-nav .nav-link {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+                border-radius: 0;
+                border: none;
+                background: none;
+                color: var(--text-primary);
+                text-align: left;
+                font-weight: 500;
+            }
+
+            .mobile-nav .nav-link.active,
+            .mobile-nav .nav-link:hover {
+                background: var(--primary-green);
+                color: var(--neutral-white);
+            }
+
+            .mobile-nav .user-section {
+                display: flex;
+                margin: 1.5rem 2rem 0.5rem 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+                gap: var(--space-3);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar (desktop only) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">WWOOFer Dashboard</p>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="activities.html" class="nav-link">
+                        <span class="nav-icon">⏱️</span>
+                        Log Hours
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Join Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="propose.html" class="nav-link active">
+                        <span class="nav-icon">📝</span>
+                        Propose Project
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="agreements.html" class="nav-link">
+                        <span class="nav-icon">📄</span>
+                        My Agreements
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="suggestions.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="learning.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Learning & Resources
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Mobile menu toggle (mobile only) -->
+        <button class="mobile-menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+        <!-- Mobile nav overlay and menu (mobile only) -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileMenu()"></div>
+        <nav class="mobile-nav" id="mobileNav" style="display:none;">
+            <a href="index.html" class="nav-link"><span class="nav-icon">🏠</span>Dashboard</a>
+            <a href="activities.html" class="nav-link active"><span class="nav-icon">⏱️</span>Log Hours</a>
+            <a href="projects.html" class="nav-link"><span class="nav-icon">📋</span>Join Project</a>
+            <a href="propose.html" class="nav-link"><span class="nav-icon">📝</span>Propose Project</a>
+            <a href="agreements.html" class="nav-link"><span class="nav-icon">📄</span>My Agreements</a>
+            <a href="suggestions.html" class="nav-link"><span class="nav-icon">💡</span>Ideas & Suggestions</a>
+
+            <a href="learning.html" class="nav-link"><span class="nav-icon">📚</span>Learning & Resources</a>
+            <div class="user-section">
+                <div class="user-avatar">JS</div>
+                <div class="user-info">
+                    <h4>João Santos</h4>
+                    <p>WWOOFer • Since Feb 2024</p>
+                </div>
+                <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+            </div>
+        </nav>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="dashboard-title">
+                    <h1>WWOOFer Dashboard</h1>
+                    <p>Track your work and join projects.</p>
+                </div>
+                <div class="user-section">
+                    <div class="user-avatar">JS</div>
+                    <div class="user-info">
+                        <h4>João Santos</h4>
+                        <p>WWOOFer • Since Feb 2024</p>
+                    </div>
+                    <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+                </div>
+            </div>
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- 4 Squares: 2 Stats + 2 Main Buttons -->
+                <section class="dashboard-grid">
+                    <div class="dashboard-square">
+                        <div class="stat-number">18h</div>
+                        <div class="stat-label">Hours Worked This Week</div>
+                        <div class="stat-change">Goal: 24h</div>
+                    </div>
+                    <div class="dashboard-square">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Active Projects</div>
+                        <div class="stat-change">Garden, Water System</div>
+                    </div>
+                    <a href="activities.html" class="dashboard-square">
+                        <div class="quick-action-icon">⏱️</div>
+                        <div class="quick-action-title">Log Hours</div>
+                        <div class="quick-action-desc">Record your work and activities</div>
+                    </a>
+                    <a href="projects.html" class="dashboard-square">
+                        <div class="quick-action-icon">📋</div>
+                        <div class="quick-action-title">Join Project</div>
+                        <div class="quick-action-desc">See and join available projects</div>
+                    </a>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="../shared/js/main.js"></script>
+    <script>
+        // Mobile menu logic
+        function toggleMobileMenu() {
+            var nav = document.getElementById('mobileNav');
+            var overlay = document.getElementById('mobileNavOverlay');
+            if (nav.style.display === 'block') {
+                nav.style.display = 'none';
+                overlay.style.display = 'none';
+            } else {
+                nav.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+        }
+        function closeMobileMenu() {
+            document.getElementById('mobileNav').style.display = 'none';
+            document.getElementById('mobileNavOverlay').style.display = 'none';
+        }
+        // Close menu when clicking a link
+        document.addEventListener('DOMContentLoaded', function () {
+            var links = document.querySelectorAll('.mobile-nav .nav-link');
+            links.forEach(function (link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+        });
+    </script>
+</body>
+
+</html>
