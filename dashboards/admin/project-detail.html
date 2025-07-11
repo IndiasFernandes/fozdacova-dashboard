@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - Admin Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .project-overview {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-8);
+        }
+        .project-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-6);
+        }
+        .project-title {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .project-status {
+            padding: var(--space-2) var(--space-4);
+            border-radius: 12px;
+            font-size: var(--text-sm);
+            font-weight: 600;
+        }
+        .status-active {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+        }
+        .status-completed {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .project-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+        .detail-section {
+            background: var(--background-secondary);
+            padding: var(--space-4);
+            border-radius: 8px;
+        }
+        .detail-section h4 {
+            margin: 0 0 var(--space-3) 0;
+            color: var(--text-primary);
+            font-size: var(--text-lg);
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-2);
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .detail-value {
+            color: var(--text-secondary);
+        }
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-6);
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: var(--space-6);
+        }
+        .tab-button {
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s ease;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .tab-button.active {
+            border-bottom-color: var(--primary-green);
+            color: var(--primary-green);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .activity-log {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .log-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .log-item:last-child {
+            border-bottom: none;
+        }
+        .log-info h5 {
+            margin: 0 0 var(--space-1) 0;
+            color: var(--text-primary);
+        }
+        .log-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+        .log-meta {
+            text-align: right;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+        }
+        .participant-card {
+            background: var(--background-secondary);
+            border-radius: 8px;
+            padding: var(--space-4);
+            border: 1px solid var(--border-color);
+        }
+        .participant-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+        .participant-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .participant-info h5 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+        .participant-info p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+        .btn-back {
+            background: var(--secondary-earth);
+            color: var(--neutral-white);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: var(--space-6);
+        }
+        .btn-back:hover {
+            background: var(--secondary-earth-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Admin Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Open Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Requested Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="expenses.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Cost Tracking
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="budget.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Budget Overview
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Resources Request
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="request-resources.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Request Resources
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">Water System Maintenance</h1>
+                <p class="page-subtitle">Project details, participants, and activity logs</p>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <a href="projects.html" class="btn-back">← Back to Projects</a>
+
+                <!-- Project Overview -->
+                <div class="project-overview">
+                    <div class="project-header">
+                        <h2 class="project-title">Water System Maintenance</h2>
+                        <span class="project-status status-active">Active</span>
+                    </div>
+                    
+                    <p class="project-description">Install and maintain water containers with proper piping system for improved water distribution across the property. This project involves setting up additional water storage containers, installing proper piping connections, and ensuring efficient water flow to all areas of the property.</p>
+
+                    <div class="project-details">
+                        <div class="detail-section">
+                            <h4>Project Information</h4>
+                            <div class="detail-item">
+                                <span class="detail-label">Category:</span>
+                                <span class="detail-value">💧 Water Systems</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Type:</span>
+                                <span class="detail-value">🔄 Recurring</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Coordinator:</span>
+                                <span class="detail-value">Maria Silva</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Start Date:</span>
+                                <span class="detail-value">Jan 15, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Due Date:</span>
+                                <span class="detail-value">Feb 15, 2024</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>Requirements</h4>
+                            <div class="detail-item">
+                                <span class="detail-label">Skills Needed:</span>
+                                <span class="detail-value">Basic plumbing, teamwork</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value">Main water system area</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Max Participants:</span>
+                                <span class="detail-value">5 people</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Current Participants:</span>
+                                <span class="detail-value">3 people</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Priority:</span>
+                                <span class="detail-value">🔴 High</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>Progress</h4>
+                            <div class="detail-item">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value">✅ In Progress</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Hours Logged:</span>
+                                <span class="detail-value">24.5 hours</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Last Activity:</span>
+                                <span class="detail-value">Feb 12, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Next Milestone:</span>
+                                <span class="detail-value">Piping installation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab-button active" onclick="showTab('participants')">Participants</button>
+                    <button class="tab-button" onclick="showTab('activity')">Activity Logs</button>
+                    <button class="tab-button" onclick="showTab('resources')">Resources</button>
+                </div>
+
+                <!-- Participants Tab -->
+                <div id="participants" class="tab-content active">
+                    <div class="participants-grid">
+                        <div class="participant-card">
+                            <div class="participant-header">
+                                <div class="participant-avatar">MS</div>
+                                <div class="participant-info">
+                                    <h5>Maria Silva</h5>
+                                    <p>Coordinator</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Hours:</span>
+                                <span class="detail-value">12.5 hours</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Last Active:</span>
+                                <span class="detail-value">Feb 12, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value">✅ Active</span>
+                            </div>
+                        </div>
+
+                        <div class="participant-card">
+                            <div class="participant-header">
+                                <div class="participant-avatar">JS</div>
+                                <div class="participant-info">
+                                    <h5>João Santos</h5>
+                                    <p>Participant</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Hours:</span>
+                                <span class="detail-value">8.0 hours</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Last Active:</span>
+                                <span class="detail-value">Feb 10, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value">✅ Active</span>
+                            </div>
+                        </div>
+
+                        <div class="participant-card">
+                            <div class="participant-header">
+                                <div class="participant-avatar">AC</div>
+                                <div class="participant-info">
+                                    <h5>Ana Costa</h5>
+                                    <p>Participant</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Hours:</span>
+                                <span class="detail-value">4.0 hours</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Last Active:</span>
+                                <span class="detail-value">Feb 8, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value">✅ Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Logs Tab -->
+                <div id="activity" class="tab-content">
+                    <div class="activity-log">
+                        <div class="log-item">
+                            <div class="log-info">
+                                <h5>Water container installation</h5>
+                                <p>Installed new water containers and connected piping system. Worked with João on container positioning.</p>
+                            </div>
+                            <div class="log-meta">
+                                <div>Maria Silva</div>
+                                <div>Feb 12, 2024</div>
+                                <div>4.5 hours</div>
+                            </div>
+                        </div>
+
+                        <div class="log-item">
+                            <div class="log-info">
+                                <h5>Piping system setup</h5>
+                                <p>Set up main piping connections and tested water flow. System working well.</p>
+                            </div>
+                            <div class="log-meta">
+                                <div>João Santos</div>
+                                <div>Feb 10, 2024</div>
+                                <div>3.5 hours</div>
+                            </div>
+                        </div>
+
+                        <div class="log-item">
+                            <div class="log-info">
+                                <h5>Initial planning and materials</h5>
+                                <p>Planned project layout and gathered necessary materials. Coordinated with team.</p>
+                            </div>
+                            <div class="log-meta">
+                                <div>Maria Silva</div>
+                                <div>Feb 8, 2024</div>
+                                <div>2.0 hours</div>
+                            </div>
+                        </div>
+
+                        <div class="log-item">
+                            <div class="log-info">
+                                <h5>Site preparation</h5>
+                                <p>Cleared area and prepared foundation for water containers.</p>
+                            </div>
+                            <div class="log-meta">
+                                <div>Ana Costa</div>
+                                <div>Feb 6, 2024</div>
+                                <div>4.0 hours</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resources Tab -->
+                <div id="resources" class="tab-content">
+                    <div class="activity-log">
+                        <h4>Project Resources</h4>
+                        <div class="log-item">
+                            <div class="log-info">
+                                <h5>Water Containers</h5>
+                                <p>2 large water storage containers (1000L each)</p>
+                            </div>
+                            <div class="log-meta">
+                                <div>Status: ✅ Received</div>
+                                <div>Cost: €200</div>
+                            </div>
+                        </div>
+
+                        <div class="log-item">
+                            <div class="log-info">
+                                <h5>Piping System</h5>
+                                <p>PVC pipes, connectors, and fittings for water distribution</p>
+                            </div>
+                            <div class="log-meta">
+                                <div>Status: ✅ Received</div>
+                                <div>Cost: €150</div>
+                            </div>
+                        </div>
+
+                        <div class="log-item">
+                            <div class="log-info">
+                                <h5>Tools</h5>
+                                <p>Plumbing tools, wrenches, and installation equipment</p>
+                            </div>
+                            <div class="log-meta">
+                                <div>Status: ✅ Available</div>
+                                <div>Cost: €0 (existing)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html> 

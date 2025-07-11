@@ -265,14 +265,15 @@
                     <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
                     <button class="filter-btn" onclick="filterProjects('active')">Active</button>
                     <button class="filter-btn" onclick="filterProjects('completed')">Completed</button>
-                    <button class="filter-btn" onclick="filterProjects('pending')">Pending</button>
+                    <button class="filter-btn" onclick="filterProjects('recurring')">Recurring</button>
+                    <button class="filter-btn" onclick="filterProjects('temporary')">Temporary</button>
                 </div>
                 
                 <button class="add-project-btn" onclick="addNewProject()">+ Add New Project</button>
 
                 <!-- Projects Grid -->
                 <div class="project-grid">
-                    <div class="project-card" data-status="active">
+                    <div class="project-card" data-status="active" data-type="recurring">
                         <div class="project-header">
                             <h3 class="project-title">Water System Maintenance</h3>
                             <span class="project-status status-active">Active</span>
@@ -295,20 +296,23 @@
                                 <span>💧</span>
                                 <span>Water Systems</span>
                             </div>
-                        </div>
-                        <div class="project-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 75%"></div>
-                                <span class="progress-text">75%</span>
+                            <div class="meta-item">
+                                <span>🔄</span>
+                                <span>Type: Recurring</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>✅</span>
+                                <span>Status: In Progress</span>
                             </div>
                         </div>
                         <div class="project-actions">
+                            <button class="btn-view" onclick="viewProject(1)">View Details</button>
                             <button class="btn-edit" onclick="editProject(1)">Edit</button>
                             <button class="btn-delete" onclick="deleteProject(1)">Delete</button>
                         </div>
                     </div>
 
-                    <div class="project-card" data-status="active">
+                    <div class="project-card" data-status="active" data-type="temporary">
                         <div class="project-header">
                             <h3 class="project-title">Spring Garden Planting</h3>
                             <span class="project-status status-active">Active</span>
@@ -331,23 +335,26 @@
                                 <span>🌱</span>
                                 <span>Gardening</span>
                             </div>
-                        </div>
-                        <div class="project-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 45%"></div>
-                                <span class="progress-text">45%</span>
+                            <div class="meta-item">
+                                <span>⏱️</span>
+                                <span>Type: Temporary</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>✅</span>
+                                <span>Status: In Progress</span>
                             </div>
                         </div>
                         <div class="project-actions">
+                            <button class="btn-view" onclick="viewProject(2)">View Details</button>
                             <button class="btn-edit" onclick="editProject(2)">Edit</button>
                             <button class="btn-delete" onclick="deleteProject(2)">Delete</button>
                         </div>
                     </div>
 
-                    <div class="project-card" data-status="active">
+                    <div class="project-card" data-status="completed" data-type="temporary">
                         <div class="project-header">
                             <h3 class="project-title">Community Kitchen Renovation</h3>
-                            <span class="project-status status-active">Active</span>
+                            <span class="project-status status-completed">Completed</span>
                         </div>
                         <p class="project-description">Renovate the community kitchen with improved storage, workspace, and cooking facilities for better meal preparation.</p>
                         <div class="project-meta">
@@ -361,29 +368,32 @@
                             </div>
                             <div class="meta-item">
                                 <span>📅</span>
-                                <span>Due: Mar 1</span>
+                                <span>Completed: Jan 30</span>
                             </div>
                             <div class="meta-item">
                                 <span>🏠</span>
                                 <span>Housekeeping</span>
                             </div>
-                        </div>
-                        <div class="project-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 30%"></div>
-                                <span class="progress-text">30%</span>
+                            <div class="meta-item">
+                                <span>⏱️</span>
+                                <span>Type: Temporary</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>✅</span>
+                                <span>Status: Done</span>
                             </div>
                         </div>
                         <div class="project-actions">
+                            <button class="btn-view" onclick="viewProject(3)">View Details</button>
                             <button class="btn-edit" onclick="editProject(3)">Edit</button>
                             <button class="btn-delete" onclick="deleteProject(3)">Delete</button>
                         </div>
                     </div>
 
-                    <div class="project-card" data-status="completed">
+                    <div class="project-card" data-status="active" data-type="recurring">
                         <div class="project-header">
                             <h3 class="project-title">Bed Linen Organization</h3>
-                            <span class="project-status status-completed">Completed</span>
+                            <span class="project-status status-active">Active</span>
                         </div>
                         <p class="project-description">Organize and tag bed linens for all three houses with proper storage system for easy access and maintenance.</p>
                         <div class="project-meta">
@@ -397,21 +407,25 @@
                             </div>
                             <div class="meta-item">
                                 <span>📅</span>
-                                <span>Completed: Jan 30</span>
+                                <span>Ongoing</span>
                             </div>
                             <div class="meta-item">
                                 <span>🏠</span>
                                 <span>Housekeeping</span>
                             </div>
-                        </div>
-                        <div class="project-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 100%"></div>
-                                <span class="progress-text">100%</span>
+                            <div class="meta-item">
+                                <span>🔄</span>
+                                <span>Type: Recurring</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>✅</span>
+                                <span>Status: In Progress</span>
                             </div>
                         </div>
                         <div class="project-actions">
-                            <button class="btn-edit" onclick="editProject(4)">View</button>
+                            <button class="btn-view" onclick="viewProject(4)">View Details</button>
+                            <button class="btn-edit" onclick="editProject(4)">Edit</button>
+                            <button class="btn-delete" onclick="deleteProject(4)">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -431,7 +445,11 @@
             
             // Filter cards
             cards.forEach(card => {
-                if (status === 'all' || card.dataset.status === status) {
+                if (status === 'all' || 
+                    (status === 'active' && card.dataset.status === 'active') ||
+                    (status === 'completed' && card.dataset.status === 'completed') ||
+                    (status === 'recurring' && card.dataset.type === 'recurring') ||
+                    (status === 'temporary' && card.dataset.type === 'temporary')) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
@@ -451,6 +469,10 @@
         
         function addNewProject() {
             alert('Add new project - This would open a project creation form');
+        }
+
+        function viewProject(id) {
+            window.location.href = 'project-detail.html';
         }
     </script>
 </body>
