@@ -10,51 +10,6 @@ Foz da Cova Dashboard is a lightweight, PHP-based web application designed for c
 - **Stewart Dashboard**: Project coordination, team management, and resource flow
 - **WWOOFer Dashboard**: Activity logging, project participation, and learning resources
 
-## 🚀 Quick Start
-
-### Production Deployment
-
-1. **Upload to cPanel**
-   - Upload `public_html/` contents to your `public_html/` directory
-   - Upload `sketch/` to your root directory (outside web root)
-
-2. **Set Permissions**
-   ```bash
-   chmod 755 public_html/
-   chmod 644 public_html/*.php
-   chmod 755 data/
-   chmod 644 data/foz_da_cova.db
-   ```
-
-3. **Database Setup**
-   - Access `yourdomain.com/admin/setup.php` to create database
-   - Or run via SSH: `php admin/setup.php`
-
-4. **Access the Application**
-   - **Main App**: `yourdomain.com/`
-   - **Sketch Pages**: `yourdomain.com/sketch/`
-
-### Local Development
-
-1. **Install PHP**
-   ```bash
-   # macOS
-   brew install php
-   
-   # Ubuntu/Debian
-   sudo apt-get install php php-sqlite3
-   ```
-
-2. **Start Development Server**
-   ```bash
-   cd public_html/
-   php -S localhost:8000
-   ```
-
-3. **Access Application**
-   - **Main App**: `http://localhost:8000/`
-   - **Sketch Pages**: `http://localhost:8000/sketch/`
-
 ## 🏗️ System Architecture
 
 ### Technology Stack
@@ -67,25 +22,62 @@ Foz da Cova Dashboard is a lightweight, PHP-based web application designed for c
 ### File Structure
 ```
 foz-da-cova/
-├── public_html/            # Production web root
+├── public/                 # Web root (cPanel public_html)
 │   ├── index.php          # Main router
 │   ├── login.php          # Authentication
 │   ├── logout.php         # Logout handler
-│   ├── demo.html          # Static demo version
 │   ├── assets/            # CSS, JS, images
 │   ├── admin/             # Admin pages
 │   ├── stewart/           # Stewart pages
 │   ├── wwoofer/           # WWOOFer pages
-│   ├── includes/          # PHP backend
-│   ├── data/              # SQLite database
-│   └── .htaccess          # URL routing
-├── sketch/                 # Original HTML prototypes
-│   ├── dashboards/        # Original dashboard designs
-│   ├── public/            # Original public pages
-│   ├── docs/              # Documentation
-│   └── .htaccess          # Sketch routing
-└── docs/                  # Additional documentation
+│   └── uploads/           # File uploads
+├── includes/              # PHP includes
+│   ├── config.php         # Database & app config
+│   ├── auth.php           # Authentication logic
+│   ├── db.php             # Database functions
+│   └── templates/         # Template files
+├── data/                  # Database & data files
+│   └── foz_da_cova.db    # SQLite database
+└── admin/                 # Admin-only files
+    └── setup.php          # Database setup
 ```
+
+## 🚀 Quick Start
+
+### Prerequisites
+- PHP 7.4 or higher
+- SQLite support enabled
+- Web server (Apache/Nginx)
+
+### Installation
+
+1. **Clone or download the project**
+   ```bash
+   git clone [repository-url]
+   cd foz-da-cova
+   ```
+
+2. **Set up the database**
+   ```bash
+   php admin/setup.php
+   ```
+
+3. **Configure web server**
+   - Point document root to the `public/` directory
+   - Ensure PHP has write permissions to `data/` directory
+
+4. **Access the application**
+   - Navigate to your web server URL
+   - Login with demo credentials (see below)
+
+### Demo Credentials
+
+| Role | Username | Password |
+|------|----------|----------|
+| Admin | admin | admin123 |
+| Stewart | maria | maria123 |
+| WWOOFer | joao | joao123 |
+| WWOOFer | ana | ana123 |
 
 ## 🎯 Features
 
@@ -122,14 +114,13 @@ foz-da-cova/
 - **project_participants**: Project participation tracking
 - **learning_resources**: Educational content and guides
 
-## 🔐 Demo Credentials
-
-| Role | Username | Password |
-|------|----------|----------|
-| Admin | admin | admin123 |
-| Stewart | maria | maria123 |
-| WWOOFer | joao | joao123 |
-| WWOOFer | ana | ana123 |
+### Key Features
+- Role-based access control
+- Activity logging with mood tracking
+- Expense approval workflow
+- Suggestion review system
+- Project participation tracking
+- Learning resource management
 
 ## 🎨 Design System
 
@@ -169,15 +160,15 @@ foz-da-cova/
 ## 🚀 Deployment
 
 ### cPanel Deployment
-1. Upload `public_html/` contents to `public_html/`
-2. Upload `sketch/` to root directory (outside web root)
-3. Set proper file permissions
+1. Upload files to `public_html/`
+2. Set proper file permissions (755 for directories, 644 for files)
+3. Ensure PHP has write access to `data/` directory
 4. Run database setup script
 5. Configure `.htaccess` for clean URLs
 
 ### Local Development
 1. Install PHP and SQLite
-2. Run `php -S localhost:8000 -t public_html/`
+2. Run `php -S localhost:8000 -t public/`
 3. Access at `http://localhost:8000`
 
 ## 🔧 Configuration
@@ -206,19 +197,6 @@ foz-da-cova/
 - **Database queries**: Optimized with indexes
 - **Mobile performance**: Touch-friendly and fast
 - **Scalability**: Handles multiple concurrent users
-
-## 🎨 Sketch Pages
-
-The original HTML prototypes are preserved and accessible at `/sketch/`:
-
-- **Dashboard Designs**: Original design concepts
-- **Public Pages**: Community-facing pages
-- **Documentation**: Design and planning documents
-- **Prototypes**: Early development versions
-
-Access via:
-- **Production**: `yourdomain.com/sketch/`
-- **Local**: `http://localhost:8000/sketch/`
 
 ## 🤝 Contributing
 
@@ -253,26 +231,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Test with demo credentials
 - Ensure PHP version compatibility
 
-## 🔍 Health Check
-
-Access the system health check at:
-- **Production**: `yourdomain.com/health.php`
-- **Local**: `http://localhost:8000/health.php`
-
-This will verify:
-- PHP version and extensions
-- Database connectivity
-- File permissions
-- Server configuration
-
 ---
 
-**Foz da Cova Dashboard** - Empowering community land projects with simple, effective management tools.
-
-## 🚀 Quick Access
-
-- **Main Application**: `/` (requires login)
-- **Demo Version**: `/demo.html` (static HTML)
-- **Sketch Pages**: `/sketch/` (original prototypes)
-- **Health Check**: `/health.php` (system status)
-- **Setup Script**: `/admin/setup.php` (database setup) 
+**Foz da Cova Dashboard** - Empowering community land projects with simple, effective management tools. 

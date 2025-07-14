@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  foz-da-cova:
+    image: php:8.1-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/var/www/html
+      - ./includes:/var/www/html/includes
+      - ./data:/var/www/html/data
+      - ./admin:/var/www/html/admin
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    command: >
+      sh -c "
+        a2enmod rewrite &&
+        docker-php-ext-install sqlite3 &&
+        apache2-foreground
+      " 

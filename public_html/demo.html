@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foz da Cova Dashboard - Demo</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="logo">Foz da Cova</h1>
+                <span class="user-role">Admin</span>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-details">
+                        <span class="user-name">Admin User</span>
+                        <a href="#" class="logout-link">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="dashboard-main">
+        <div class="dashboard-layout">
+            <aside class="dashboard-sidebar">
+                <nav class="sidebar-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <span class="nav-icon">📊</span>
+                                <span class="nav-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-icon">🏗️</span>
+                                <span class="nav-text">Projects</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-icon">💰</span>
+                                <span class="nav-text">Expenses</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-icon">💡</span>
+                                <span class="nav-text">Suggestions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-icon">👥</span>
+                                <span class="nav-text">Users</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text">Knowledge</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            
+            <div class="dashboard-content">
+                <div class="dashboard-grid">
+                    <a href="#" class="dashboard-square">
+                        <div class="square-header">
+                            <h3 class="square-title">Projects</h3>
+                            <span class="square-icon">🏗️</span>
+                        </div>
+                        <div class="square-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Total</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">3</span>
+                                <span class="stat-label">Active</span>
+                            </div>
+                        </div>
+                        <div class="square-action">View all projects →</div>
+                    </a>
+
+                    <a href="#" class="dashboard-square">
+                        <div class="square-header">
+                            <h3 class="square-title">Expenses</h3>
+                            <span class="square-icon">💰</span>
+                        </div>
+                        <div class="square-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">24</span>
+                                <span class="stat-label">Total</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">5</span>
+                                <span class="stat-label">Pending</span>
+                            </div>
+                        </div>
+                        <div class="square-action">View all expenses →</div>
+                    </a>
+
+                    <a href="#" class="dashboard-square">
+                        <div class="square-header">
+                            <h3 class="square-title">Suggestions</h3>
+                            <span class="square-icon">💡</span>
+                        </div>
+                        <div class="square-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">8</span>
+                                <span class="stat-label">Total</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">3</span>
+                                <span class="stat-label">New</span>
+                            </div>
+                        </div>
+                        <div class="square-action">Review suggestions →</div>
+                    </a>
+
+                    <a href="#" class="dashboard-square">
+                        <div class="square-header">
+                            <h3 class="square-title">Users</h3>
+                            <span class="square-icon">👥</span>
+                        </div>
+                        <div class="square-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">4</span>
+                                <span class="stat-label">Total</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">2</span>
+                                <span class="stat-label">WWOOFers</span>
+                            </div>
+                        </div>
+                        <div class="square-action">Manage users →</div>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Activities</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-item">
+                            <div class="activity-icon">🏗️</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Water System Maintenance</div>
+                                <div class="activity-meta">
+                                    Created by Admin User
+                                    <span class="status-badge status-in-progress">In Progress</span>
+                                </div>
+                            </div>
+                            <div class="activity-time">Feb 15</div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon">💡</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Better compost system</div>
+                                <div class="activity-meta">
+                                    Submitted by João Santos
+                                    <span class="status-badge status-new">New</span>
+                                </div>
+                            </div>
+                            <div class="activity-time">Feb 14</div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon">💰</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Garden tools set</div>
+                                <div class="activity-meta">
+                                    Submitted by Maria Silva
+                                    <span class="status-badge status-pending">Pending</span>
+                                </div>
+                            </div>
+                            <div class="activity-time">Feb 13</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 
