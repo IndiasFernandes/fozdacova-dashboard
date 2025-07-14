@@ -3,7 +3,11 @@ RewriteEngine On
 # Redirect /sketch to sketch directory
 RewriteRule ^sketch/(.*)$ sketch/$1 [L]
 
-# Handle front controller pattern for main app
+# Allow direct access to existing PHP files
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^.*\.php$ - [L]
+
+# Handle front controller pattern for main app (only for non-existent files)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]
