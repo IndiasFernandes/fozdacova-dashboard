@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources Request - Admin Dashboard</title>
+    <title>Dream Projects - Stewart Dashboard - Foz da Cova</title>
     <link rel="stylesheet" href="../shared/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -28,13 +28,13 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        .request-grid {
+        .proposals-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: var(--space-6);
             margin-bottom: var(--space-8);
         }
-        .request-card {
+        .proposal-card {
             background: var(--background-primary);
             border-radius: 12px;
             padding: var(--space-6);
@@ -42,23 +42,23 @@
             border: 1px solid var(--border-color);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .request-card:hover {
+        .proposal-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0,0,0,0.12);
         }
-        .request-header {
+        .proposal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: var(--space-4);
         }
-        .request-title {
+        .proposal-title {
             font-size: var(--text-lg);
             font-weight: 600;
             color: var(--text-primary);
             margin: 0;
         }
-        .request-status {
+        .proposal-status {
             padding: var(--space-1) var(--space-3);
             border-radius: 12px;
             font-size: var(--text-sm);
@@ -76,12 +76,12 @@
             background: var(--accent-danger);
             color: var(--neutral-white);
         }
-        .request-description {
+        .proposal-description {
             color: var(--text-secondary);
             margin-bottom: var(--space-4);
             line-height: 1.5;
         }
-        .request-details {
+        .proposal-details {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: var(--space-3);
@@ -94,7 +94,7 @@
             font-size: var(--text-sm);
             color: var(--text-secondary);
         }
-        .request-actions {
+        .proposal-actions {
             display: flex;
             gap: var(--space-3);
         }
@@ -156,6 +156,41 @@
             color: var(--neutral-white);
             border-color: var(--primary-green);
         }
+        .sidebar {
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            width: 100%;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .nav-icon {
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
@@ -164,7 +199,7 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>Foz da Cova</h2>
-                <p class="text-secondary">Admin Dashboard</p>
+                <p class="text-secondary">Stewart Dashboard</p>
             </div>
             
             <nav class="nav-menu">
@@ -177,37 +212,19 @@
                 <div class="nav-item">
                     <a href="projects.html" class="nav-link">
                         <span class="nav-icon">📋</span>
-                        Open Projects
+                        All Missions
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="requested-projects.html" class="nav-link">
+                    <a href="requested-projects.html" class="nav-link active">
                         <span class="nav-icon">📝</span>
-                        Requested Projects
+                        Dream Projects
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="expenses.html" class="nav-link">
+                    <a href="costs.html" class="nav-link">
                         <span class="nav-icon">💰</span>
-                        Cost Tracking
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="budget.html" class="nav-link">
-                        <span class="nav-icon">📊</span>
-                        Budget Overview
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="resources.html" class="nav-link active">
-                        <span class="nav-icon">🛠️</span>
-                        Resources Request
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="request-resources.html" class="nav-link">
-                        <span class="nav-icon">📝</span>
-                        Request Resources
+                        Resource Flow
                     </a>
                 </div>
                 <div class="nav-item">
@@ -217,48 +234,73 @@
                     </a>
                 </div>
                 <div class="nav-item">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Request Resources
+                    </a>
+                </div>
+                <div class="nav-item">
                     <a href="knowledge.html" class="nav-link">
                         <span class="nav-icon">📚</span>
                         Knowledge Base
                     </a>
                 </div>
             </nav>
+            
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
             <!-- Header -->
-            <div class="page-header">
-                <h1 class="page-title">Resources Request</h1>
-                <p class="page-subtitle">Review and approve resource requests from stewards</p>
-            </div>
+            <header class="header">
+                <div class="dashboard-title">
+                    <h1>Dream Projects</h1>
+                    <p>Review and approve new project proposals from WWOOFers</p>
+                </div>
+                <div class="user-section">
+                    <div class="user-avatar">MS</div>
+                    <div class="user-info">
+                        <h4>Maria Silva</h4>
+                        <p>Stewart</p>
+                    </div>
+                    <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+                </div>
+            </header>
 
             <!-- Content Area -->
             <div class="content-area">
                 <!-- Filters -->
                 <div class="filters">
-                    <button class="filter-btn active" onclick="filterRequests('all')">All Requests</button>
-                    <button class="filter-btn" onclick="filterRequests('pending')">Pending</button>
-                    <button class="filter-btn" onclick="filterRequests('approved')">Approved</button>
-                    <button class="filter-btn" onclick="filterRequests('rejected')">Rejected</button>
+                    <button class="filter-btn active" onclick="filterProposals('all')">All Proposals</button>
+                    <button class="filter-btn" onclick="filterProposals('pending')">Pending Review</button>
+                    <button class="filter-btn" onclick="filterProposals('approved')">Approved</button>
+                    <button class="filter-btn" onclick="filterProposals('rejected')">Rejected</button>
                 </div>
 
-                <!-- Requests Grid -->
-                <div class="request-grid">
-                    <div class="request-card" data-status="pending">
-                        <div class="request-header">
-                            <h3 class="request-title">Additional Water Containers</h3>
-                            <span class="request-status status-pending">Pending</span>
+                <!-- Proposals Grid -->
+                <div class="proposals-grid">
+                    <div class="proposal-card" data-status="pending">
+                        <div class="proposal-header">
+                            <h3 class="proposal-title">Compost Bin Expansion</h3>
+                            <span class="proposal-status status-pending">Pending</span>
                         </div>
-                        <p class="request-description">Need 2 additional water containers for the water system expansion project. Current containers are at capacity.</p>
-                        <div class="request-details">
+                        <p class="proposal-description">Expand our composting system with additional bins for better waste management and increased compost production for the gardens.</p>
+                        <div class="proposal-details">
                             <div class="detail-item">
                                 <span>👤</span>
-                                <span>Requested by: Maria Silva</span>
+                                <span>Proposed by: João Santos</span>
                             </div>
                             <div class="detail-item">
                                 <span>📅</span>
-                                <span>Submitted: Feb 12</span>
+                                <span>Submitted: Feb 10</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🌿</span>
+                                <span>Category: Sustainability</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⭐</span>
+                                <span>Priority: High</span>
                             </div>
                             <div class="detail-item">
                                 <span>💰</span>
@@ -266,115 +308,38 @@
                             </div>
                             <div class="detail-item">
                                 <span>⏱️</span>
-                                <span>Urgency: High</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>📋</span>
-                                <span>Project: Water System</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>🛠️</span>
-                                <span>Category: Equipment</span>
+                                <span>Duration: 2 weeks</span>
                             </div>
                         </div>
-                        <div class="request-actions">
-                            <button class="btn-view" onclick="viewRequest(1)">View Details</button>
-                            <button class="btn-approve" onclick="approveRequest(1)">Approve</button>
-                            <button class="btn-reject" onclick="rejectRequest(1)">Reject</button>
+                        <div class="proposal-actions">
+                            <button class="btn-view" onclick="viewProposal(1)">View Details</button>
+                            <button class="btn-approve" onclick="approveProposal(1)">Approve</button>
+                            <button class="btn-reject" onclick="rejectProposal(1)">Reject</button>
                         </div>
                     </div>
 
-                    <div class="request-card" data-status="pending">
-                        <div class="request-header">
-                            <h3 class="request-title">Garden Tools Set</h3>
-                            <span class="request-status status-pending">Pending</span>
+                    <div class="proposal-card" data-status="pending">
+                        <div class="proposal-header">
+                            <h3 class="proposal-title">Solar Panel Upgrade</h3>
+                            <span class="proposal-status status-pending">Pending</span>
                         </div>
-                        <p class="request-description">Complete set of garden tools needed for the spring planting project. Current tools are worn out and insufficient.</p>
-                        <div class="request-details">
+                        <p class="proposal-description">Upgrade the solar panel system with additional panels to increase energy production and reduce dependency on external power sources.</p>
+                        <div class="proposal-details">
                             <div class="detail-item">
                                 <span>👤</span>
-                                <span>Requested by: João Santos</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>📅</span>
-                                <span>Submitted: Feb 10</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>💰</span>
-                                <span>Estimated Cost: €150</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>⏱️</span>
-                                <span>Urgency: Medium</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>📋</span>
-                                <span>Project: Spring Garden</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>🛠️</span>
-                                <span>Category: Tools</span>
-                            </div>
-                        </div>
-                        <div class="request-actions">
-                            <button class="btn-view" onclick="viewRequest(2)">View Details</button>
-                            <button class="btn-approve" onclick="approveRequest(2)">Approve</button>
-                            <button class="btn-reject" onclick="rejectRequest(2)">Reject</button>
-                        </div>
-                    </div>
-
-                    <div class="request-card" data-status="approved">
-                        <div class="request-header">
-                            <h3 class="request-title">Solar Panel Components</h3>
-                            <span class="request-status status-approved">Approved</span>
-                        </div>
-                        <p class="request-description">Replacement parts for solar panel system maintenance. System showing reduced efficiency.</p>
-                        <div class="request-details">
-                            <div class="detail-item">
-                                <span>👤</span>
-                                <span>Requested by: Ana Costa</span>
+                                <span>Proposed by: Maria Silva</span>
                             </div>
                             <div class="detail-item">
                                 <span>📅</span>
                                 <span>Submitted: Feb 8</span>
                             </div>
                             <div class="detail-item">
-                                <span>💰</span>
-                                <span>Estimated Cost: €320</span>
+                                <span>⚡</span>
+                                <span>Category: Sustainability</span>
                             </div>
                             <div class="detail-item">
-                                <span>⏱️</span>
-                                <span>Urgency: High</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>📋</span>
-                                <span>Project: Solar Maintenance</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>🛠️</span>
-                                <span>Category: Equipment</span>
-                            </div>
-                        </div>
-                        <div class="request-actions">
-                            <button class="btn-view" onclick="viewRequest(3)">View Details</button>
-                            <button class="btn-approve" disabled>Approved</button>
-                        </div>
-                    </div>
-
-                    <div class="request-card" data-status="rejected">
-                        <div class="request-header">
-                            <h3 class="request-title">Luxury Furniture Set</h3>
-                            <span class="request-status status-rejected">Rejected</span>
-                        </div>
-                        <p class="request-description">New furniture for the community lounge area to improve comfort and aesthetics.</p>
-                        <div class="request-details">
-                            <div class="detail-item">
-                                <span>👤</span>
-                                <span>Requested by: Carlos Lima</span>
-                            </div>
-                            <div class="detail-item">
-                                <span>📅</span>
-                                <span>Submitted: Feb 5</span>
+                                <span>⭐</span>
+                                <span>Priority: High</span>
                             </div>
                             <div class="detail-item">
                                 <span>💰</span>
@@ -382,19 +347,88 @@
                             </div>
                             <div class="detail-item">
                                 <span>⏱️</span>
-                                <span>Urgency: Low</span>
+                                <span>Duration: 3 weeks</span>
+                            </div>
+                        </div>
+                        <div class="proposal-actions">
+                            <button class="btn-view" onclick="viewProposal(2)">View Details</button>
+                            <button class="btn-approve" onclick="approveProposal(2)">Approve</button>
+                            <button class="btn-reject" onclick="rejectProposal(2)">Reject</button>
+                        </div>
+                    </div>
+
+                    <div class="proposal-card" data-status="approved">
+                        <div class="proposal-header">
+                            <h3 class="proposal-title">Community Tool Shed</h3>
+                            <span class="proposal-status status-approved">Approved</span>
+                        </div>
+                        <p class="proposal-description">Build a dedicated tool shed for organizing and storing community tools and equipment with proper security.</p>
+                        <div class="proposal-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Proposed by: Ana Costa</span>
                             </div>
                             <div class="detail-item">
-                                <span>📋</span>
-                                <span>Project: Lounge Upgrade</span>
+                                <span>📅</span>
+                                <span>Submitted: Feb 5</span>
                             </div>
                             <div class="detail-item">
                                 <span>🛠️</span>
-                                <span>Category: Furniture</span>
+                                <span>Category: Natural Building</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⭐</span>
+                                <span>Priority: Medium</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Estimated Cost: €300</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Duration: 2 weeks</span>
                             </div>
                         </div>
-                        <div class="request-actions">
-                            <button class="btn-view" onclick="viewRequest(4)">View Details</button>
+                        <div class="proposal-actions">
+                            <button class="btn-view" onclick="viewProposal(3)">View Details</button>
+                            <button class="btn-approve" disabled>Approved</button>
+                        </div>
+                    </div>
+
+                    <div class="proposal-card" data-status="rejected">
+                        <div class="proposal-header">
+                            <h3 class="proposal-title">Luxury Furniture Set</h3>
+                            <span class="proposal-status status-rejected">Rejected</span>
+                        </div>
+                        <p class="proposal-description">Purchase new luxury furniture for the community lounge area to improve comfort and aesthetics.</p>
+                        <div class="proposal-details">
+                            <div class="detail-item">
+                                <span>👤</span>
+                                <span>Proposed by: Carlos Lima</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>📅</span>
+                                <span>Submitted: Feb 3</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>🪑</span>
+                                <span>Category: Community</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⭐</span>
+                                <span>Priority: Low</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>💰</span>
+                                <span>Estimated Cost: €1200</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>⏱️</span>
+                                <span>Duration: 1 week</span>
+                            </div>
+                        </div>
+                        <div class="proposal-actions">
+                            <button class="btn-view" onclick="viewProposal(4)">View Details</button>
                             <button class="btn-reject" disabled>Rejected</button>
                         </div>
                     </div>
@@ -405,8 +439,8 @@
 
     <script src="../shared/js/main.js"></script>
     <script>
-        function filterRequests(status) {
-            const cards = document.querySelectorAll('.request-card');
+        function filterProposals(status) {
+            const cards = document.querySelectorAll('.proposal-card');
             const buttons = document.querySelectorAll('.filter-btn');
             
             // Update active button
@@ -423,19 +457,19 @@
             });
         }
         
-        function viewRequest(id) {
-            window.location.href = 'resource-detail.html?id=' + id;
+        function viewProposal(id) {
+            alert(`View proposal ${id} - This would show detailed proposal information`);
         }
         
-        function approveRequest(id) {
-            if (confirm('Are you sure you want to approve this resource request?')) {
-                alert(`Request ${id} approved successfully!`);
+        function approveProposal(id) {
+            if (confirm('Are you sure you want to approve this project proposal?')) {
+                alert(`Proposal ${id} approved successfully!`);
             }
         }
         
-        function rejectRequest(id) {
-            if (confirm('Are you sure you want to reject this resource request?')) {
-                alert(`Request ${id} rejected successfully.`);
+        function rejectProposal(id) {
+            if (confirm('Are you sure you want to reject this project proposal?')) {
+                alert(`Proposal ${id} rejected successfully.`);
             }
         }
     </script>

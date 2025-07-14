@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spark Ideas - WWOOFer Dashboard - Foz da Cova</title>
+    <title>Ideas & Suggestions - Stewart Dashboard - Foz da Cova</title>
     <link rel="stylesheet" href="../shared/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -109,6 +109,20 @@
             font-size: var(--text-xs);
             color: var(--text-secondary);
         }
+        .ticket-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+        .btn-sm {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: var(--text-xs);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-approve { background: var(--accent-success); color: white; }
+        .btn-reject { background: var(--accent-danger); color: white; }
+        .btn-view { background: var(--primary-green); color: white; }
         .filters {
             display: flex;
             gap: var(--space-3);
@@ -172,7 +186,7 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>Foz da Cova</h2>
-                <p class="text-secondary">WWOOFer Dashboard</p>
+                <p class="text-secondary">Stewart Dashboard</p>
             </div>
             
             <nav class="nav-menu">
@@ -185,43 +199,37 @@
                 <div class="nav-item">
                     <a href="projects.html" class="nav-link">
                         <span class="nav-icon">📋</span>
-                        Join a Mission
+                        All Missions
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="propose.html" class="nav-link">
-                        <span class="nav-icon">💭</span>
-                        Dream Up a Mission
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Dream Projects
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="activities.html" class="nav-link">
-                        <span class="nav-icon">🎯</span>
-                        Celebrate Your Impact
+                    <a href="costs.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Resource Flow
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="agreements.html" class="nav-link">
-                        <span class="nav-icon">📄</span>
-                        My Adventure Pact
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="suggestions.html" class="nav-link active">
+                    <a href="ideas.html" class="nav-link active">
                         <span class="nav-icon">💡</span>
-                        Spark Ideas
+                        Ideas & Suggestions
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="learning.html" class="nav-link">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Request Resources
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link">
                         <span class="nav-icon">📚</span>
-                        Grow & Explore
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="how-to.html" class="nav-link">
-                        <span class="nav-icon">❓</span>
-                        How To
+                        Knowledge Base
                     </a>
                 </div>
             </nav>
@@ -233,14 +241,14 @@
             <!-- Header -->
             <header class="header">
                 <div class="dashboard-title">
-                    <h1>Spark Ideas</h1>
-                    <p>Share your ideas and suggestions with the community</p>
+                    <h1>Ideas & Suggestions</h1>
+                    <p>Review and manage community feedback</p>
                 </div>
                 <div class="user-section">
-                    <div class="user-avatar">JS</div>
+                    <div class="user-avatar">MS</div>
                     <div class="user-info">
-                        <h4>João Santos</h4>
-                        <p>WWOOFer</p>
+                        <h4>Maria Silva</h4>
+                        <p>Stewart</p>
                     </div>
                     <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
                 </div>
@@ -250,7 +258,7 @@
             <div class="content-area">
                 <!-- Simple Form -->
                 <div class="simple-form">
-                    <h3 style="margin-bottom: var(--space-4);">Share Your Idea</h3>
+                    <h3 style="margin-bottom: var(--space-4);">Submit New Idea</h3>
                     <form>
                         <div class="form-group">
                             <label class="form-label">Title</label>
@@ -283,6 +291,10 @@
                         <p class="ticket-content">We could improve the compost system by adding more bins and better organization. This would help with waste management.</p>
                         <div class="ticket-meta">
                             <span>By João • 2 hours ago</span>
+                            <div class="ticket-actions">
+                                <button class="btn-sm btn-approve" onclick="approveTicket(1)">✓</button>
+                                <button class="btn-sm btn-reject" onclick="rejectTicket(1)">✗</button>
+                            </div>
                         </div>
                     </div>
 
@@ -294,6 +306,10 @@
                         <p class="ticket-content">I think we should have a weekly community dinner where everyone cooks together. It would build community spirit.</p>
                         <div class="ticket-meta">
                             <span>By Ana • 1 day ago</span>
+                            <div class="ticket-actions">
+                                <button class="btn-sm btn-approve" onclick="approveTicket(2)">✓</button>
+                                <button class="btn-sm btn-reject" onclick="rejectTicket(2)">✗</button>
+                            </div>
                         </div>
                     </div>
 
@@ -305,6 +321,9 @@
                         <p class="ticket-content">We need more water storage containers for the dry season. This is urgent for sustainability.</p>
                         <div class="ticket-meta">
                             <span>By Carlos • 3 days ago</span>
+                            <div class="ticket-actions">
+                                <button class="btn-sm btn-view" onclick="viewTicket(3)">View</button>
+                            </div>
                         </div>
                     </div>
 
@@ -316,6 +335,9 @@
                         <p class="ticket-content">We should buy expensive furniture for the lounge area to make it more comfortable.</p>
                         <div class="ticket-meta">
                             <span>By Pedro • 1 week ago</span>
+                            <div class="ticket-actions">
+                                <button class="btn-sm btn-view" onclick="viewTicket(4)">View</button>
+                            </div>
                         </div>
                     </div>
 
@@ -327,6 +349,10 @@
                         <p class="ticket-content">We need a proper storage system for garden tools. Currently they're scattered everywhere.</p>
                         <div class="ticket-meta">
                             <span>By Maria • 4 hours ago</span>
+                            <div class="ticket-actions">
+                                <button class="btn-sm btn-approve" onclick="approveTicket(5)">✓</button>
+                                <button class="btn-sm btn-reject" onclick="rejectTicket(5)">✗</button>
+                            </div>
                         </div>
                     </div>
 
@@ -338,6 +364,10 @@
                         <p class="ticket-content">The kitchen lighting is too dim for evening cooking. We should add more LED lights.</p>
                         <div class="ticket-meta">
                             <span>By Sofia • 6 hours ago</span>
+                            <div class="ticket-actions">
+                                <button class="btn-sm btn-approve" onclick="approveTicket(6)">✓</button>
+                                <button class="btn-sm btn-reject" onclick="rejectTicket(6)">✗</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -363,6 +393,22 @@
                     card.style.display = 'none';
                 }
             });
+        }
+        
+        function approveTicket(id) {
+            if (confirm('Approve this idea?')) {
+                alert(`Ticket ${id} approved!`);
+            }
+        }
+        
+        function rejectTicket(id) {
+            if (confirm('Reject this idea?')) {
+                alert(`Ticket ${id} rejected.`);
+            }
+        }
+        
+        function viewTicket(id) {
+            alert(`Viewing ticket ${id} details`);
         }
     </script>
 </body>

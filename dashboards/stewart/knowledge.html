@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base - Stewart Dashboard - Foz da Cova</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        .knowledge-card {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .knowledge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .knowledge-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        .knowledge-icon {
+            font-size: var(--text-2xl);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: var(--background-secondary);
+        }
+        .knowledge-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .knowledge-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+            line-height: 1.5;
+        }
+        .knowledge-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .knowledge-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-2) var(--space-4);
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            font-size: var(--text-sm);
+        }
+        .btn-primary {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .btn-primary:hover {
+            background: var(--primary-green-dark);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+        }
+        .btn-outline:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .filters {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--border-color);
+            background: var(--background-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+            border-color: var(--primary-green);
+        }
+        .sidebar {
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            width: 100%;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .nav-icon {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Stewart Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        All Missions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Dream Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="costs.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Resource Flow
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        Request Resources
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link active">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+            
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="dashboard-title">
+                    <h1>Knowledge Base</h1>
+                    <p>Access guides, contacts, and learning resources</p>
+                </div>
+                <div class="user-section">
+                    <div class="user-avatar">MS</div>
+                    <div class="user-info">
+                        <h4>Maria Silva</h4>
+                        <p>Stewart</p>
+                    </div>
+                    <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Filters -->
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterResources('all')">All Resources</button>
+                    <button class="filter-btn" onclick="filterResources('guides')">Guides</button>
+                    <button class="filter-btn" onclick="filterResources('contacts')">Contacts</button>
+                    <button class="filter-btn" onclick="filterResources('maps')">Maps</button>
+                    <button class="filter-btn" onclick="filterResources('notion')">Notion</button>
+                </div>
+
+                <!-- Knowledge Resources Grid -->
+                <div class="knowledge-grid">
+                    <div class="knowledge-card" data-category="guides">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon">📖</div>
+                            <h3 class="knowledge-title">Stewart Handbook</h3>
+                        </div>
+                        <p class="knowledge-description">Complete guide for Stewart role including project coordination, team management, and resource allocation best practices.</p>
+                        <div class="knowledge-meta">
+                            <span>Updated: Feb 10, 2024</span>
+                            <div class="knowledge-actions">
+                                <a href="#" class="btn btn-primary">View Guide</a>
+                                <button class="btn btn-outline">Download</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="contacts">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon">📞</div>
+                            <h3 class="knowledge-title">Emergency Contacts</h3>
+                        </div>
+                        <p class="knowledge-description">Essential emergency contacts including local services, medical facilities, and community support numbers.</p>
+                        <div class="knowledge-meta">
+                            <span>Updated: Feb 8, 2024</span>
+                            <div class="knowledge-actions">
+                                <a href="#" class="btn btn-primary">View Contacts</a>
+                                <button class="btn btn-outline">Export</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="maps">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon">🗺️</div>
+                            <h3 class="knowledge-title">Property Maps</h3>
+                        </div>
+                        <p class="knowledge-description">Detailed maps of the property including water systems, garden areas, buildings, and walking paths.</p>
+                        <div class="knowledge-meta">
+                            <span>Updated: Feb 5, 2024</span>
+                            <div class="knowledge-actions">
+                                <a href="#" class="btn btn-primary">View Maps</a>
+                                <button class="btn btn-outline">Download</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="notion">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon">📋</div>
+                            <h3 class="knowledge-title">Community Hub</h3>
+                        </div>
+                        <p class="knowledge-description">Central Notion workspace with project documentation, learning resources, and community guidelines.</p>
+                        <div class="knowledge-meta">
+                            <span>Live Document</span>
+                            <div class="knowledge-actions">
+                                <a href="#" class="btn btn-primary">Open Hub</a>
+                                <button class="btn btn-outline">Sync</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="guides">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon">🌱</div>
+                            <h3 class="knowledge-title">Gardening Guide</h3>
+                        </div>
+                        <p class="knowledge-description">Comprehensive guide to organic gardening, seasonal planting, and sustainable agriculture practices.</p>
+                        <div class="knowledge-meta">
+                            <span>Updated: Feb 12, 2024</span>
+                            <div class="knowledge-actions">
+                                <a href="#" class="btn btn-primary">View Guide</a>
+                                <button class="btn btn-outline">Download</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="contacts">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon">👥</div>
+                            <h3 class="knowledge-title">Team Directory</h3>
+                        </div>
+                        <p class="knowledge-description">Contact information for all current WWOOFers, stewards, and community members with skills and availability.</p>
+                        <div class="knowledge-meta">
+                            <span>Updated: Feb 15, 2024</span>
+                            <div class="knowledge-actions">
+                                <a href="#" class="btn btn-primary">View Directory</a>
+                                <button class="btn btn-outline">Export</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="guides">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon">💧</div>
+                            <h3 class="knowledge-title">Water Systems</h3>
+                        </div>
+                        <p class="knowledge-description">Technical documentation for water collection, filtration, and distribution systems maintenance.</p>
+                        <div class="knowledge-meta">
+                            <span>Updated: Feb 3, 2024</span>
+                            <div class="knowledge-actions">
+                                <a href="#" class="btn btn-primary">View Guide</a>
+                                <button class="btn btn-outline">Download</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-card" data-category="notion">
+                        <div class="knowledge-header">
+                            <div class="knowledge-icon">📊</div>
+                            <h3 class="knowledge-title">Project Tracker</h3>
+                        </div>
+                        <p class="knowledge-description">Live project tracking and progress monitoring with team assignments and milestone tracking.</p>
+                        <div class="knowledge-meta">
+                            <span>Live Document</span>
+                            <div class="knowledge-actions">
+                                <a href="#" class="btn btn-primary">Open Tracker</a>
+                                <button class="btn btn-outline">Sync</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+    <script>
+        function filterResources(category) {
+            const cards = document.querySelectorAll('.knowledge-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

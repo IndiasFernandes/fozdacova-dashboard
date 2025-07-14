@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Request Detail - Admin Dashboard - Foz da Cova</title>
+    <link rel="stylesheet" href="../shared/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-header {
+            padding: var(--space-6) var(--space-8);
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .page-title {
+            margin: 0;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .page-subtitle {
+            margin: var(--space-2) 0 0 0;
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+        }
+        .content-area {
+            padding: var(--space-8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .resource-card {
+            background: var(--background-primary);
+            border-radius: 12px;
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-6);
+        }
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-4);
+        }
+        .resource-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .resource-status {
+            padding: var(--space-2) var(--space-4);
+            border-radius: 12px;
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+        .status-pending {
+            background: var(--accent-warning);
+            color: var(--neutral-dark);
+        }
+        .status-approved {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+        }
+        .status-rejected {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+        }
+        .resource-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-6);
+        }
+        .resource-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+        .detail-label {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .detail-value {
+            font-size: var(--text-base);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .resource-actions {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-6);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-3) var(--space-6);
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            font-size: var(--text-base);
+        }
+        .btn-primary {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .btn-primary:hover {
+            background: var(--primary-green-dark);
+        }
+        .btn-success {
+            background: var(--accent-success);
+            color: var(--neutral-white);
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-danger {
+            background: var(--accent-danger);
+            color: var(--neutral-white);
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+        }
+        .btn-outline:hover {
+            background: var(--primary-green);
+            color: var(--neutral-white);
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: var(--space-4);
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Foz da Cova</h2>
+                <p class="text-secondary">Admin Dashboard</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="projects.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Open Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="requested-projects.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Requested Projects
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="expenses.html" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        Cost Tracking
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="budget.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Budget Overview
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="resources.html" class="nav-link active">
+                        <span class="nav-icon">🛠️</span>
+                        Resources Request
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="request-resources.html" class="nav-link">
+                        <span class="nav-icon">📝</span>
+                        Request Resources
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="ideas.html" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        Ideas & Suggestions
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="knowledge.html" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </div>
+            </nav>
+            
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="dashboard-title">
+                    <h1>Resource Request Detail</h1>
+                    <p>Review and manage resource requests</p>
+                </div>
+                <div class="user-section">
+                    <div class="user-avatar">AU</div>
+                    <div class="user-info">
+                        <h4>Admin User</h4>
+                        <p>Administrator</p>
+                    </div>
+                    <a href="../login.html" class="btn btn-outline btn-sm">Logout</a>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <a href="resources.html" class="back-link">
+                    ← Back to Resources Request
+                </a>
+
+                <!-- Resource Request Detail Card -->
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <h2 class="resource-title">Garden Tools Set</h2>
+                        <span class="resource-status status-pending">Pending Approval</span>
+                    </div>
+                    
+                    <div class="resource-description">
+                        <p>Request for a complete set of garden tools including shovels, rakes, pruning shears, and watering cans. These tools are needed for the spring garden planting project and will be used by multiple WWOOFers.</p>
+                        
+                        <p><strong>Justification:</strong> Current tools are worn out and insufficient for the number of participants. New tools will improve efficiency and safety.</p>
+                    </div>
+
+                    <div class="resource-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Requested by:</span>
+                            <span class="detail-value">Maria Silva</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Category:</span>
+                            <span class="detail-value">Tools & Equipment</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Requested:</span>
+                            <span class="detail-value">February 12, 2024</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Priority:</span>
+                            <span class="detail-value">High</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Estimated Cost:</span>
+                            <span class="detail-value">€180</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">For Project:</span>
+                            <span class="detail-value">Spring Garden Planting</span>
+                        </div>
+                    </div>
+
+                    <div class="resource-actions">
+                        <button class="btn btn-success">Approve</button>
+                        <button class="btn btn-danger">Reject</button>
+                        <button class="btn btn-outline">Edit</button>
+                        <a href="resources.html" class="btn btn-outline">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared/js/main.js"></script>
+</body>
+</html> 
