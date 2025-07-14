@@ -159,7 +159,7 @@ try {
     // Create sample projects
     createProject('Water System Maintenance', 'Maintain and improve water collection systems', 'water-systems', 'in-progress', 'high', 5, 'Main water tank area', '2024-02-01', '2024-03-01', 1);
     createProject('Spring Garden Planting', 'Plant seasonal vegetables and herbs', 'gardening', 'open', 'normal', 8, 'Community garden', '2024-03-01', '2024-04-01', 2);
-    createProject('Community Kitchen Renovation', 'Improve kitchen facilities', 'housekeeping', 'open', 'medium', 3, 'Main kitchen', '2024-04-01', '2024-05-01', 1);
+    createProject('Community Kitchen Renovation', 'Improve kitchen facilities', 'housekeeping', 'open', 'normal', 3, 'Main kitchen', '2024-04-01', '2024-05-01', 1);
     
     echo "Creating sample suggestions...\n";
     
